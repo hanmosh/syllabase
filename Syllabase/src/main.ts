@@ -1,4 +1,5 @@
 import './style.css'
+import { initCourses, renderNewCoursePage, renderPublishedCoursesPage } from './courses'
 
 // Preset user credentials
 const PRESET_USER = {
@@ -10,6 +11,9 @@ const PRESET_USER = {
 // State management
 let isLoggedIn = false
 let currentUser: { name: string; email: string } | null = null
+
+// Initialize courses module
+initCourses()
 
 // Render the login form
 function renderLoginForm(): void {
@@ -55,24 +59,9 @@ function renderLoginForm(): void {
   setupLoginForm()
 }
 
-// Render the logged-in state
+// Render the logged-in state - redirect to courses
 function renderLoggedInState(): void {
-  const app = document.querySelector<HTMLDivElement>('#app')!
-
-  app.innerHTML = `
-    <div class="logged-in-container">
-      <div class="success-card">
-        <div class="success-icon">✓</div>
-        <h1>Welcome back!</h1>
-        <p class="user-info">You are now logged in as</p>
-        <p class="user-name">${currentUser?.name}</p>
-        <p class="user-email">${currentUser?.email}</p>
-        <button id="logout-button" class="logout-button">Sign Out</button>
-      </div>
-    </div>
-  `
-
-  setupLogout()
+  renderPublishedCoursesPage()
 }
 
 // Handle login form submission
@@ -106,14 +95,10 @@ function setupLoginForm(): void {
 }
 
 // Handle logout
-function setupLogout(): void {
-  const logoutButton = document.querySelector<HTMLButtonElement>('#logout-button')!
-
-  logoutButton.addEventListener('click', () => {
-    isLoggedIn = false
-    currentUser = null
-    renderLoginForm()
-  })
+export function handleLogout(): void {
+  isLoggedIn = false
+  currentUser = null
+  renderLoginForm()
 }
 
 // Initialize the app
