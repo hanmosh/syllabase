@@ -144,6 +144,7 @@ export function renderNewCoursePage(): void {
       <main class="course-content">
         <div class="course-form-container">
           <div class="course-form-header">
+            <button type="button" id="back-btn" class="back-btn">← Back</button>
             <h2>${editingCourse ? 'Edit Course' : 'Create New Course'}</h2>
             ${editingCourse ? '<p class="form-subtitle">Make changes to your course and click publish to save</p>' : '<p class="form-subtitle">Fill in the details below to publish a new course</p>'}
           </div>
@@ -240,7 +241,14 @@ function setupCourseForm(): void {
   const form = document.querySelector<HTMLFormElement>('#course-form')!
   const addFieldBtn = document.querySelector<HTMLButtonElement>('#add-field-btn')!
   const viewCoursesBtn = document.querySelector<HTMLButtonElement>('#view-courses-btn')!
+  const backBtn = document.querySelector<HTMLButtonElement>('#back-btn')!
   const profileIcon = document.querySelector<HTMLButtonElement>('#profile-icon')!
+
+  // Handle back button click
+  backBtn.addEventListener('click', () => {
+    state.editingCourseId = undefined
+    renderPublishedCoursesPage()
+  })
 
   // Handle profile icon click (logout)
   profileIcon.addEventListener('click', () => {

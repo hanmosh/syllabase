@@ -356,6 +356,26 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.back-btn {
+  background: none;
+  border: none;
+  color: #086769;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  color: #15d9c6;
+  transform: translateX(-4px);
+}
+
 .form-subtitle {
   color: #718096;
   margin-bottom: 2rem;
