@@ -4,10 +4,42 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>syllabase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Syllabase</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="main-header">
+        <a id="logo" href="index.html"><h1>Syllabase</h1></a>
+
+        <div id="main-search-bar">
+          <form>
+            <input type="text" placeholder="Search for department" name="search" />
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+
+        <img src="images/profile-icon.png" alt="Profile Icon">
+      </div>
+
+      <div class="quick-search">
+        <h2>Quick Search: </h2>
+        <div class="quick-search-links">
+          <a href="#"><button data-subject="design">Architecture & Design</button></a>
+          <a href="#"><button data-subject="business">Business</button></a>
+          <a href="#"><button data-subject="computer science">Computer Science</button></a>
+          <a href="#"><button data-subject="engineering">Engineering</button></a>
+          <a href="#"><button data-subject="environmental science">Environmental Sciences</button></a>
+          <a href="#"><button data-subject="liberal arts">Liberal Arts</button></a>
+          <a href="#"><button data-subject="mathematics">Mathematics</button></a>
+          <a href="#"><button data-subject="science">Science</button></a>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

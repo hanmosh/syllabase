@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Results - Syllabase</title>
+  </head>
+  <body>
+    <div id="results-template">
+      <div class="main-header">
+        <a id="logo" href="index.html"><h1>Syllabase</h1></a>
+
+        <div id="main-search-bar">
+          <form>
+            <input type="text" placeholder="Search for department" name="search" />
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+
+        <img src="images/profile-icon.png" alt="Profile Icon" />
+      </div>
+
+      <main>
+        <h2>Results for "(subject here)"</h2>
+
+        <div class="sub-search-bar">
+          <form>
+            <input type="text" placeholder="Search within '(course name here)'" name="search" />
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+
+        <table id="results-database">
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>Professor</th>
+              <th>Course Number</th>
+              <th>Course Name</th>
+              <th>University</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+        </table>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/database-results.ts"></script>
+  </body>
+</html>
