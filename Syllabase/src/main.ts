@@ -1,5 +1,6 @@
 import './style.css'
 import { initCourses, renderNewCoursePage, renderPublishedCoursesPage } from './courses'
+import { renderHomePage } from './homepage'
 
 // Preset user credentials
 const PRESET_USER = {
@@ -61,6 +62,7 @@ function renderLoginForm(): void {
 
 // Render the logged-in state - redirect to courses
 function renderLoggedInState(): void {
+  // renderHomePage()
   renderPublishedCoursesPage()
 }
 

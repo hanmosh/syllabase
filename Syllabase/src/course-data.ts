@@ -7,5 +7,9 @@ export interface Course {
 }
 
 export const defaultCourses: Course[] = [
-  { department: "Computer Science", professor: "Frank Santana", courseNumber: "123", courseName: "Human Computer Interaction", university: "Stanford" }
+  { department: "Computer Science", professor: "Frank Santana", courseNumber: "123", courseName: "Human Computer Interaction", university: "Stanford" },
+  { department: "Math", professor: "Frank Santana", courseNumber: "123", courseName: "Human Computer Interaction", university: "Stanford" },
+  { department: "English", professor: "Frank Santana", courseNumber: "123", courseName: "Human Computer Interaction", university: "Stanford" },
+  { department: "History", professor: "Frank Santana", courseNumber: "123", courseName: "Human Computer Interaction", university: "Stanford" },
+  { department: "Environmental Science", professor: "Frank Santana", courseNumber: "123", courseName: "Human Computer Interaction", university: "Stanford" }
 ];
