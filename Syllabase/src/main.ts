@@ -1,5 +1,5 @@
 import './style.css'
-import { initCourses, renderNewCoursePage, renderPublishedCoursesPage } from './courses'
+import { initCourses, renderNewCoursePage, renderPublishedCoursesPage, setCurrentUser } from './courses'
 
 // Preset user credentials
 const PRESET_USER = {
@@ -84,6 +84,10 @@ function setupLoginForm(): void {
         name: PRESET_USER.name,
         email: PRESET_USER.email
       }
+      
+      // Set current user in courses module
+      setCurrentUser(PRESET_USER.name)
+      
       errorMessage.textContent = ''
       renderLoggedInState()
     } else {
