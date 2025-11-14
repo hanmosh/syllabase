@@ -431,8 +431,8 @@ body {
 /* Chat Interface */
 .chat-content {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   padding: 1.25rem 0 3rem;
   min-height: calc(100vh - 100px);
   display: flex;
@@ -824,8 +824,8 @@ body {
 /* Course Content */
 .course-content {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   padding: 2rem 1rem;
 }
 
@@ -1021,8 +1021,8 @@ body {
 
 /* Published Courses Page */
 .courses-container {
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   width: 100%;
 }
 

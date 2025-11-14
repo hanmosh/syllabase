@@ -1657,11 +1657,8 @@ export function showCoursePreviewModal(courseInput: string | Course): void {
         // Re-add event listener for show less
         const showLessBtn = content.querySelector(".preview-show-less");
         showLessBtn?.addEventListener("click", () => {
-          const course = state.courses.find((c) => c.id === courseId);
-          if (course) {
-            closeModal();
-            showCoursePreviewModal(courseId);
-          }
+          closeModal();
+          showCoursePreviewModal(course);
         });
       }
     });
