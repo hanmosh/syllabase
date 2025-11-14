@@ -1,4 +1,4 @@
-import { renderSidebar, setupSidebar } from "./courses"
+import { renderSidebar, setupSidebar, renderPublishedCoursesPage, renderFoldersPage } from "./courses"
 
 export function renderHomePage(): void {
     const app = document.querySelector<HTMLDivElement>('#search-page');

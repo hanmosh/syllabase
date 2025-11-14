@@ -1,6 +1,6 @@
 import type { Course } from "./course-data";
 import { defaultCourses } from "./course-data";
-import { renderSidebar, saveCourses, setupSidebar, state, generateId } from "./courses"
+import { renderSidebar, saveCourses, setupSidebar, state, generateId, loadFolders, saveFolders, loadCourses } from "./courses"
 import type { Folder } from "./courses"
 
 export function renderResultsPage(department: string): void {
@@ -168,6 +168,7 @@ function renderSaveOverlay(courseId: string): void {
 
         state.folders.push(newFolder);
         saveCourses();
+        saveFolders();
 
         selectFolder.innerHTML = state.folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
         newFolderName.value = '';
@@ -180,16 +181,21 @@ function renderSaveOverlay(courseId: string): void {
             return;
         }
 
-        if (!folder.courseIds.includes(courseId)) folder.courseIds.push(courseId);
+        if (!folder.courseIds.includes(courseId)) {
+            folder.courseIds.push(courseId);
             saveCourses();
-            closeOverlay();
+            saveFolders();
+        }
+            
+        closeOverlay();
     });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const department = localStorage.getItem('selectedDepartment');
-    console.log("Loaded dept:", department); 
+    loadCourses();
+    loadFolders();
 
+    const department = localStorage.getItem('selectedDepartment');
     if (department) {
         renderResultsPage(department);
     } else {

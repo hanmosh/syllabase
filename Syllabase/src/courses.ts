@@ -111,6 +111,29 @@ export function saveCourses(): void {
   localStorage.setItem('syllabase-courses', JSON.stringify(state))
 }
 
+// Load folders from localStorage
+export function loadFolders(): void {
+  const stored = localStorage.getItem('syllabase-folders')
+  if (stored) {
+    try {
+      const loadedFolders = JSON.parse(stored)
+      state = {
+        ...loadedFolders,
+        currentPage: loadedFolders.currentPage || 'folders',
+        folders: loadedFolders.folders || []
+      }
+    } catch (e) {
+      console.error('Error loading folders:', e)
+    }
+  }
+  loadProfilePicture()
+}
+
+// Save folders to localStorage
+export function saveFolders(): void {
+  localStorage.setItem('syllabase-folders', JSON.stringify(state));
+}
+
 // Render sidebar navigation
 export function renderSidebar(): string {
   return `
