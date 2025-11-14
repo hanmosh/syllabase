@@ -27,7 +27,7 @@ body {
   min-height: 100vh;
 }
 
-#app, #results-template {
+#app, #results-template, #search-page {
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -151,7 +151,6 @@ body {
   transform: translateY(0);
 }
 
-<<<<<<< HEAD
 /* Logged In State */
 .logged-in-container {
   width: 100%;
@@ -265,14 +264,22 @@ body {
 }
 
 #main-search-bar button:hover, #sub-search-bar button:hover {
-  background-color: #ffffff;
+  background-color: white;
+  color: #086769;
+}
+
+.course-page main {
+  margin: 50px;
+}
+
+.quick-search h2 {
   color: #086769;
 }
 
 .quick-search-links {
   display: grid;
   margin: 30px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
   width: 100%;
   justify-items: center;
@@ -283,7 +290,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 30px;
-  background-color: #ffffff;
+  background-color: white;
   color: #086769;
   text-align: center;
   text-decoration: none;
@@ -296,21 +303,59 @@ body {
 
 .quick-search-links button:hover {
   background-color: #086769;
-  color: #ffffff;
+  color: white;
 }
 
 /* Results Page */
+#resultsTitle {
+  color: #086769;
+}
+
 #results-database {
+  margin: 30px;
   border-collapse: collapse;
   width: 100%;
+  color: #086769;
 }
 
 #results-database tr {
-  border-bottom: 1px soild #ffffff;
+  border-bottom: 1px solid #086769;
 }
 
 #results-database tr:hover {
-  background-color: #718096;
+  background-color: #15d9c6;
+}
+
+#results-database th, #results-database td {
+  padding: 20px;
+}
+
+#results-database th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  font-weight: bold;
+  color: #086769;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
 }
 
 /* Responsive Design */
@@ -332,8 +377,6 @@ body {
   }
 }
 
-=======
->>>>>>> 442675db3c2fa6227bed5f791c97b5d1a81d2e38
 /* Course Pages Styles */
 .course-page {
   width: 100%;
@@ -358,6 +401,7 @@ body {
   font-weight: 700;
   color: #086769;
   margin: 0;
+  text-decoration: none;
 }
 
 .hamburger-menu {

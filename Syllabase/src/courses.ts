@@ -112,7 +112,7 @@ export function saveCourses(): void {
 }
 
 // Render sidebar navigation
-function renderSidebar(): string {
+export function renderSidebar(): string {
   return `
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <nav class="sidebar" id="sidebar">
@@ -194,7 +194,7 @@ function closeSidebar(): void {
 }
 
 // Setup sidebar handlers
-function setupSidebar(): void {
+export function setupSidebar(): void {
   const hamburger = document.getElementById('hamburger-menu')
   const overlay = document.getElementById('sidebar-overlay')
   const menuItems = document.querySelectorAll('.sidebar-menu-item')
@@ -323,7 +323,7 @@ export function renderNewCoursePage(): void {
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
       </header>
 
       <main class="course-content">
@@ -813,7 +813,7 @@ export function renderPublishedCoursesPage(): void {
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
         <button class="hamburger-menu" id="hamburger-menu">
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
@@ -857,7 +857,7 @@ export function renderFoldersPage(): void {
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
       </header>
 
       <main class="course-content">
@@ -1000,7 +1000,7 @@ function renderFolderDetailPage(folderId: string): void {
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
       </header>
 
       <main class="course-content">
