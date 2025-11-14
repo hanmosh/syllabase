@@ -243,29 +243,68 @@ body {
   transform: translateY(0);
 }
 
-/* Home Page */
-#main-search-bar, #sub-search-bar {
+/* Home & Results Search Bars */
+#main-search-bar,
+#sub-search-bar {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2rem;
+  padding: 0 1.5rem;
+}
+
+#main-search-bar form,
+#sub-search-bar form {
+  width: 100%;
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 }
 
-#main-search-bar input[type="text"], #sub-search-bar input[type="text"] {
-  padding: 8px 10px;
-  font-size: 1rem;
-  border-radius: 8px;
+#main-search-bar input[type="text"],
+#sub-search-bar input[type="text"] {
+  flex: 1;
+  width: 100%;
+  padding: 0.95rem 1.25rem;
+  font-size: 1.05rem;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  color: #1a202c;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-#main-search-bar button, #sub-search-bar button {
-  padding: 8px 10px;
+#main-search-bar input[type="text"]:focus,
+#sub-search-bar input[type="text"]:focus {
+  outline: none;
+  border-color: #15d9c6;
+  box-shadow: 0 10px 25px rgba(21, 217, 198, 0.25);
+}
+
+#main-search-bar button,
+#sub-search-bar button {
+  padding: 0.95rem 1.5rem;
   background-color: #086769;
-  font-size: 17px;
-  border-radius: 8px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
+  min-width: 120px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(8, 103, 105, 0.3);
 }
 
-#main-search-bar button:hover, #sub-search-bar button:hover {
-  background-color: white;
-  color: #086769;
+#main-search-bar button:hover,
+#sub-search-bar button:hover {
+  background: #15d9c6;
+  color: #064648;
+  transform: translateY(-1px);
+}
+
+#main-search-bar button:active,
+#sub-search-bar button:active {
+  transform: translateY(0);
 }
 
 .course-page main {
@@ -283,6 +322,13 @@ body {
   gap: 1.25rem;
   width: 100%;
   justify-items: center;
+}
+
+.quick-search-empty {
+  grid-column: 1 / -1;
+  color: #086769;
+  font-size: 1.05rem;
+  margin-top: 1rem;
 }
 
 .quick-search-links button {
@@ -1599,4 +1645,3 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
