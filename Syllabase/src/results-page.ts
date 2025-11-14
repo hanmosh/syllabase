@@ -1,19 +1,29 @@
 import type { Course } from "./course-data";
 import { defaultCourses } from "./course-data";
-import { renderSidebar, saveCourses, setupSidebar, state, generateId, loadFolders, saveFolders, loadCourses } from "./courses"
-import type { Folder } from "./courses"
+import {
+  renderSidebar,
+  saveCourses,
+  setupSidebar,
+  state,
+  generateId,
+  loadFolders,
+  saveFolders,
+  loadCourses,
+} from "./courses";
+import type { Folder } from "./courses";
 
 export function renderResultsPage(department: string): void {
-    const app = document.querySelector<HTMLDivElement>('#results-template');
-    if (!app) {
-        console.error("No #results-template in HTML");
-        return;
-    };
+  const app = document.querySelector<HTMLDivElement>("#results-template");
+  if (!app) {
+    console.error("No #results-template in HTML");
+    return;
+  }
 
-    const filteredData = defaultCourses.filter(
-        (f: Course) => f.department.toLowerCase() === department.toLowerCase());
+  const filteredData = defaultCourses.filter(
+    (f: Course) => f.department.toLowerCase() === department.toLowerCase(),
+  );
 
-    app!.innerHTML = `
+  app!.innerHTML = `
         ${renderSidebar()}
         <div class="course-page">
             <header class="app-header">
@@ -48,7 +58,8 @@ export function renderResultsPage(department: string): void {
                     </thead>
 
                     <tbody>
-                        ${filteredData.map(
+                        ${filteredData
+                          .map(
                             (f: any) => `
                                 <tr>
                                     <td>${f.department}</td>
@@ -60,32 +71,39 @@ export function renderResultsPage(department: string): void {
                                         <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#086769;"></i>
                                     </td>
                                 </tr>
-                            `).join('')}
+                            `,
+                          )
+                          .join("")}
                     </tbody>
                 </table>
             </main>
         </div>
     `;
 
-    setupSidebar();
+  setupSidebar();
 
-    const resultsSearch = document.querySelector<HTMLFormElement>('#results-search');
-    resultsSearch?.addEventListener('submit', (event) => {
-        event.preventDefault();
+  const resultsSearch =
+    document.querySelector<HTMLFormElement>("#results-search");
+  resultsSearch?.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-        const input = (resultsSearch.querySelector('input[name="search"]') as HTMLInputElement).value.trim();
-        const filteredData = defaultCourses.filter((f: Course) =>
-            f.department.toLowerCase() === department.toLowerCase() && (
-                f.professor.toLowerCase().includes(input.toLowerCase()) ||
-                f.courseNumber.toLowerCase().includes(input) ||
-                f.courseName.toLowerCase().includes(input.toLowerCase()) ||
-                f.university.toLowerCase().includes(input.toLowerCase())
-            )
-        );
+    const input = (
+      resultsSearch.querySelector('input[name="search"]') as HTMLInputElement
+    ).value.trim();
+    const filteredData = defaultCourses.filter(
+      (f: Course) =>
+        f.department.toLowerCase() === department.toLowerCase() &&
+        (f.professor.toLowerCase().includes(input.toLowerCase()) ||
+          f.courseNumber.toLowerCase().includes(input) ||
+          f.courseName.toLowerCase().includes(input.toLowerCase()) ||
+          f.university.toLowerCase().includes(input.toLowerCase())),
+    );
 
-        const tableBody = app!.querySelector('tbody');
-        if (tableBody) {
-            tableBody.innerHTML = filteredData.map((t: any) => `
+    const tableBody = app!.querySelector("tbody");
+    if (tableBody) {
+      tableBody.innerHTML = filteredData
+        .map(
+          (t: any) => `
                 <tr>
                     <td>${t.department}</td>
                     <td>${t.professor}</td>
@@ -93,41 +111,45 @@ export function renderResultsPage(department: string): void {
                     <td>${t.courseName}</td>
                     <td>${t.university}</td>
                 </tr>
-            `).join('');
-            bindSaveButtons();
-        }
-    });
+            `,
+        )
+        .join("");
+      bindSaveButtons();
+    }
+  });
 
-    app.querySelectorAll('.save-button').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const courseId = (e.currentTarget as HTMLButtonElement).dataset.courseId!;
-            renderSaveOverlay(courseId);
-        });
+  app.querySelectorAll(".save-button").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const courseId = (e.currentTarget as HTMLButtonElement).dataset.courseId!;
+      renderSaveOverlay(courseId);
     });
+  });
 }
 
 function bindSaveButtons() {
-    document.querySelectorAll<HTMLButtonElement>('.save-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const courseId = button.dataset.courseId!;
-            renderSaveOverlay(courseId);
-        });
+  document
+    .querySelectorAll<HTMLButtonElement>(".save-button")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const courseId = button.dataset.courseId!;
+        renderSaveOverlay(courseId);
+      });
     });
 }
 
 function renderSaveOverlay(courseId: string): void {
-    const overlay = document.createElement('div');
-    overlay.id = 'add-to-folder-overlay';
-    overlay.className = 'overlay';
+  const overlay = document.createElement("div");
+  overlay.id = "add-to-folder-overlay";
+  overlay.className = "overlay";
 
-    overlay.innerHTML = `
+  overlay.innerHTML = `
         <div class="overlay-content">
             <h3>Save to Folder</h3>
             <hr>
 
             <label id="my-folders">My Folders</label>
             <select id="select-folder">
-                ${state.folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('')}
+                ${state.folders.map((f) => `<option value="${f.id}">${f.name}</option>`).join("")}
             </select>
 
             <div class="new-folder">
@@ -141,64 +163,70 @@ function renderSaveOverlay(courseId: string): void {
             </div>
         </div>
 
-    `
+    `;
 
-    document.body.appendChild(overlay);
+  document.body.appendChild(overlay);
 
-    const cancelButton = document.getElementById('cancel')!;
-    const saveButton = document.getElementById('save')!;
-    const createFolderButton = document.getElementById('create-folder')!;
-    const selectFolder = document.getElementById('select-folder') as HTMLSelectElement;
-    const newFolderName = document.getElementById('folder-name') as HTMLInputElement;
-    const closeOverlay = () => overlay.remove();
+  const cancelButton = document.getElementById("cancel")!;
+  const saveButton = document.getElementById("save")!;
+  const createFolderButton = document.getElementById("create-folder")!;
+  const selectFolder = document.getElementById(
+    "select-folder",
+  ) as HTMLSelectElement;
+  const newFolderName = document.getElementById(
+    "folder-name",
+  ) as HTMLInputElement;
+  const closeOverlay = () => overlay.remove();
 
-    cancelButton?.addEventListener('click', closeOverlay);
+  cancelButton?.addEventListener("click", closeOverlay);
 
-    createFolderButton.addEventListener('click', () => {
-        const folderName = newFolderName.value.trim();
-        if (!folderName) {
-            return;
-        }
+  createFolderButton.addEventListener("click", () => {
+    const folderName = newFolderName.value.trim();
+    if (!folderName) {
+      return;
+    }
 
-        const newFolder: Folder = {
-            id: generateId(),
-            name: folderName,
-            courseIds: []
-        };
+    const newFolder: Folder = {
+      id: generateId(),
+      name: folderName,
+      courseIds: [],
+    };
 
-        state.folders.push(newFolder);
-        saveCourses();
-        saveFolders();
+    state.folders.push(newFolder);
+    saveCourses();
+    saveFolders();
 
-        selectFolder.innerHTML = state.folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
-        newFolderName.value = '';
-    });
+    selectFolder.innerHTML = state.folders
+      .map((f) => `<option value="${f.id}">${f.name}</option>`)
+      .join("");
+    newFolderName.value = "";
+  });
 
-    saveButton.addEventListener('click', () => {
-        const folderId = selectFolder.value;
-        const folder = state.folders.find(f => f.id === folderId);
-        if (!folder) {
-            return;
-        }
+  saveButton.addEventListener("click", () => {
+    const folderId = selectFolder.value;
+    const folder = state.folders.find((f) => f.id === folderId);
+    if (!folder) {
+      return;
+    }
 
-        if (!folder.courseIds.includes(courseId)) {
-            folder.courseIds.push(courseId);
-            saveCourses();
-            saveFolders();
-        }
-            
-        closeOverlay();
-    });
+    if (!folder.courseIds.includes(courseId)) {
+      folder.courseIds.push(courseId);
+      saveCourses();
+      saveFolders();
+    }
+
+    closeOverlay();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadCourses();
-    loadFolders();
+  loadCourses();
+  loadFolders();
 
-    const department = localStorage.getItem('selectedDepartment');
-    if (department) {
-        renderResultsPage(department);
-    } else {
-        console.warn("No department in localStorage - cannot render results");
-    }
+  const department = localStorage.getItem("selectedDepartment");
+  if (department) {
+    renderResultsPage(department);
+  } else {
+    console.warn("No department in localStorage - cannot render results");
+  }
 });
