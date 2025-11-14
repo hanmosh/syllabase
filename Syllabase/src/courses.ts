@@ -51,7 +51,9 @@ function getAppContainer(): HTMLDivElement | null {
   return (
     document.querySelector<HTMLDivElement>("#app") ||
     document.querySelector<HTMLDivElement>("#search-page") ||
-    document.querySelector<HTMLDivElement>("#results-template")
+    document.querySelector<HTMLDivElement>("#results-template") ||
+    document.querySelector<HTMLDivElement>("#chat-page") ||
+    document.querySelector<HTMLDivElement>("#syllabus-page")
   );
 }
 
