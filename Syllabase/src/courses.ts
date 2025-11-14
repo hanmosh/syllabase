@@ -21,6 +21,7 @@ export interface Course {
   files?: FieldData;
   customFields?: { [key: string]: FieldData };
   folderId?: string; // Optional folder assignment
+  fromFolderSave?: boolean;
 }
 
 export interface Folder {
@@ -914,6 +915,7 @@ function handlePublishCourse(): void {
     files: collectFieldData("files"),
     customFields:
       Object.keys(customFields).length > 0 ? customFields : undefined,
+    fromFolderSave: false,
   };
 
   if (state.editingCourseId) {
@@ -939,6 +941,9 @@ export function renderPublishedCoursesPage(): void {
   const app = getAppContainer();
   if (!app) return;
   state.currentPage = "courses";
+  const publishedCourses = state.courses.filter(
+    (course) => !course.fromFolderSave
+  );
 
   app.innerHTML = `
     ${renderSidebar()}
@@ -961,11 +966,9 @@ export function renderPublishedCoursesPage(): void {
 
           <div class="courses-list">
             ${
-              state.courses.length === 0
+              publishedCourses.length === 0
                 ? '<div class="empty-state"><p>No courses published yet. Create your first course!</p></div>'
-                : state.courses
-                    .map((course) => renderCourseCard(course))
-                    .join("")
+                : publishedCourses.map((course) => renderCourseCard(course)).join("")
             }
           </div>
         </div>
@@ -1217,18 +1220,6 @@ function renderFolderDetailPage(folderId: string): void {
   } in this folder</p>
           </div>
 
-          <div class="folder-actions">
-            <button
-              class="chat-folder-btn"
-              data-folder-id="${folder.id}"
-              data-folder-name="${folder.name}"
-              title="Chat about this folder"
-            >
-              <i class="fas fa-comment"></i>
-            </button>
-            <button id="add-course-to-folder-btn" class="new-course-btn">+ Add Course to Folder</button>
-          </div>
-
           <div class="courses-list">
             ${
               coursesInFolder.length === 0
@@ -1463,17 +1454,14 @@ function renderCourseCard(course: Course, folderId?: string): string {
       <div class="course-card-header">
         <h3>${title}</h3>
         <div class="course-card-actions">
-          <button class="edit-course-btn" data-course-id="${
-            course.id
-          }">Edit</button>
           ${
             folderId
               ? `<button class="remove-from-folder-btn" data-course-id="${course.id}">Remove</button>`
-              : ""
+              : `
+                  <button class="edit-course-btn" data-course-id="${course.id}">Edit</button>
+                  <button class="delete-course-btn" data-course-id="${course.id}">Delete</button>
+                `
           }
-          <button class="delete-course-btn" data-course-id="${
-            course.id
-          }">Delete</button>
         </div>
       </div>
       <p class="course-professor">${professor}</p>

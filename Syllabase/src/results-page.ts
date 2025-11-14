@@ -258,6 +258,7 @@ function renderSaveOverlay(courseId: string): void {
             CourseNumber: { text: courseData.courseNumber },
             University: { text: courseData.university },
           },
+          fromFolderSave: true,
         };
         state.courses.push(course);
       }
