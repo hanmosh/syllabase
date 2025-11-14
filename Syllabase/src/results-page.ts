@@ -107,7 +107,7 @@ export function renderResultsPage(department: string): void {
 }
 
 function bindSaveButtons() {
-    document.querySelectorAll<HTMLButtonElement>('#save-button').forEach(button => {
+    document.querySelectorAll<HTMLButtonElement>('.save-button').forEach(button => {
         button.addEventListener('click', () => {
             const courseId = button.dataset.courseId!;
             renderSaveOverlay(courseId);
@@ -123,14 +123,15 @@ function renderSaveOverlay(courseId: string): void {
     overlay.innerHTML = `
         <div class="overlay-content">
             <h3>Save to Folder</h3>
+            <hr>
 
-            <label>My Folders</label>
+            <label id="my-folders">My Folders</label>
             <select id="select-folder">
                 ${state.folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('')}
             </select>
 
             <div class="new-folder">
-                <input id="folder-name" placeholder="New Folder Name" />
+                <input id="folder-name" type="text" placeholder="New Folder Name" />
                 <button id="create-folder"><i class="fas fa-plus"></i></button>
             </div>
 

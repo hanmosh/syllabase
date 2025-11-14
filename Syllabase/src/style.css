@@ -338,25 +338,74 @@ body {
   color: #086769;
 }
 
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.save-button {
+  cursor: pointer;
 }
 
-.overlay.hidden {
-    display: none;
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
 }
 
 .overlay-content {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #086769;
+  color: #ffffff;
+  padding: 30px;
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+  width: 500px;
+  height: auto;
 }
+
+#my-folders {
+  font-size: 17px;
+}
+
+#select-folder {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.new-folder input[type="text"] {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.new-folder button {
+  padding: 8px 10px;
+  background-color: #086769;
+  font-size: 17px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.new-folder button:hover {
+  background-color: #ffffff;
+  color: #086769;
+}
+
+.actions button {
+  padding: 8px;
+  background-color: #ffffff;
+  color: #086769;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background-color: #086769;
+  color: #ffffff;
+}
+
 
 /* Responsive Design */
 @media (max-width: 480px) {
