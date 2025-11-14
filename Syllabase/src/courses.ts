@@ -1470,8 +1470,11 @@ function renderCourseCard(course: Course, folderId?: string): string {
 }
 
 // Show course preview modal
-function showCoursePreviewModal(courseId: string): void {
-  const course = state.courses.find((c) => c.id === courseId);
+export function showCoursePreviewModal(courseInput: string | Course): void {
+  const course =
+    typeof courseInput === "string"
+      ? state.courses.find((c) => c.id === courseInput)
+      : courseInput;
   if (!course) return;
 
   const renderPreviewSection = (

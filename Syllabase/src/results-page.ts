@@ -9,8 +9,9 @@ import {
   loadFolders,
   saveFolders,
   initCourses,
+  showCoursePreviewModal,
 } from "./courses";
-import type { Folder } from "./courses";
+import type { Folder, Course as SavedCourse } from "./courses";
 
 let currentResults: SearchCourse[] = [];
 
@@ -104,7 +105,7 @@ export function renderResultsPage(department: string): void {
     tableBody.innerHTML = coursesToRender
       .map(
         (t: SearchCourse) => `
-            <tr>
+            <tr data-course-id="${t.courseNumber}">
                 <td>${t.department}</td>
                 <td>${t.professor}</td>
                 <td>${t.courseNumber}</td>
@@ -119,6 +120,7 @@ export function renderResultsPage(department: string): void {
       .join("");
 
     bindSaveButtons();
+    attachResultsPreviewHandlers();
   };
 
   renderTableRows(baseResults);
@@ -161,6 +163,49 @@ function bindSaveButtons() {
         renderSaveOverlay(courseId);
       });
     });
+}
+
+function buildPreviewCourse(courseData: SearchCourse): SavedCourse {
+  return {
+    id: `search-${courseData.courseNumber}`,
+    courseName: { text: `${courseData.courseNumber} - ${courseData.courseName}` },
+    professorName: { text: courseData.professor },
+    assignments: {
+      text: `Key focus areas:\n• Department: ${courseData.department}\n• University: ${courseData.university}`,
+    },
+    modules: {
+      text: `Course Number: ${courseData.courseNumber}\nUniversity: ${courseData.university}`,
+    },
+    customFields: {
+      Department: { text: courseData.department },
+      "Course Number": { text: courseData.courseNumber },
+      University: { text: courseData.university },
+    },
+    fromFolderSave: true,
+  };
+}
+
+function attachResultsPreviewHandlers(): void {
+  const rows = document.querySelectorAll<HTMLTableRowElement>(
+    "#results-database tbody tr"
+  );
+
+  rows.forEach((row) => {
+    row.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest(".save-button")) return;
+
+      const courseId = row.getAttribute("data-course-id");
+      if (!courseId) return;
+
+      const courseData = currentResults.find(
+        (course) => course.courseNumber === courseId
+      );
+      if (!courseData) return;
+
+      const previewCourse = buildPreviewCourse(courseData);
+      showCoursePreviewModal(previewCourse);
+    });
+  });
 }
 
 function renderSaveOverlay(courseId: string): void {
