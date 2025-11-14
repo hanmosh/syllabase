@@ -813,12 +813,12 @@ export function renderPublishedCoursesPage(): void {
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
+        <h1 class="app-title">Syllabase</h1>
         <button class="hamburger-menu" id="hamburger-menu">
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
       </header>
 
       <main class="course-content">
