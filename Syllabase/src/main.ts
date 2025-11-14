@@ -102,7 +102,12 @@ function setupLoginForm(): void {
 export function handleLogout(): void {
   isLoggedIn = false
   currentUser = null
-  renderLoginForm()
+  const appContainer = document.querySelector<HTMLDivElement>('#app')
+  if (appContainer) {
+    renderLoginForm()
+  } else {
+    window.location.href = 'index.html'
+  }
 }
 
 // Initialize the app

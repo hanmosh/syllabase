@@ -44,6 +44,15 @@ export let state: CourseState = {
   currentPage: 'courses'
 }
 
+// Determine which container to render into (login app vs search app)
+function getAppContainer(): HTMLDivElement | null {
+  return (
+    document.querySelector<HTMLDivElement>('#app') ||
+    document.querySelector<HTMLDivElement>('#search-page') ||
+    document.querySelector<HTMLDivElement>('#results-template')
+  )
+}
+
 // Get current user name and profile picture
 let currentUserName = 'Josh Hall'
 let currentUserProfilePic: string | null = null
@@ -330,7 +339,8 @@ function formatFileSize(bytes: number): string {
 
 // Render the new course page
 export function renderNewCoursePage(): void {
-  const app = document.querySelector<HTMLDivElement>('#app')!
+  const app = getAppContainer()
+  if (!app) return
 
   // Load existing course data if editing
   const editingCourse = state.editingCourseId
@@ -829,7 +839,8 @@ function handlePublishCourse(): void {
 
 // Render published courses page
 export function renderPublishedCoursesPage(): void {
-  const app = document.querySelector<HTMLDivElement>('#app')!
+  const app = getAppContainer()
+  if (!app) return
   state.currentPage = 'courses'
 
   app.innerHTML = `
@@ -868,7 +879,8 @@ export function renderPublishedCoursesPage(): void {
 
 // Render folders page
 export function renderFoldersPage(): void {
-  const app = document.querySelector<HTMLDivElement>('#app')!
+  const app = getAppContainer()
+  if (!app) return
   state.currentPage = 'folders'
 
   app.innerHTML = `
@@ -1004,7 +1016,8 @@ function setupFoldersPage(): void {
 
 // Render folder detail page (shows courses in folder)
 function renderFolderDetailPage(folderId: string): void {
-  const app = document.querySelector<HTMLDivElement>('#app')!
+  const app = getAppContainer()
+  if (!app) return
   const folder = state.folders.find(f => f.id === folderId)
   
   if (!folder) {
