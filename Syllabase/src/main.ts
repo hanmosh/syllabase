@@ -1,4 +1,4 @@
-import { initCourses, renderPublishedCoursesPage, setCurrentUser } from './courses'
+import { initCourses, setCurrentUser } from './courses'
 
 // Preset user credentials
 const PRESET_USER = {
@@ -61,8 +61,7 @@ function renderLoginForm(): void {
 
 // Render the logged-in state - redirect to courses
 function renderLoggedInState(): void {
-  // window.location.href = 'search.html';
-  renderPublishedCoursesPage()
+  window.location.href = 'search.html'
 }
 
 // Handle login form submission
