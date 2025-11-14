@@ -3,7 +3,9 @@
 ## How to run 
 - navigate to the `Syllabase` folder
 - run `npm run dev`
-- the app will show up at http://localhost:5173/ 
+- the app will show up at http://localhost:5173/
+- username: j@calpoly.edu
+- password: password123
 
 ## Tasks 
 1. Imagine you're a newly hired professor at Cal Poly looking to build out your curriculum for Baking 101. Use Syllabase to find and save a Baking 101 course at Cal Poly.
