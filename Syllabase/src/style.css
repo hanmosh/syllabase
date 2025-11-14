@@ -27,7 +27,7 @@ body {
   min-height: 100vh;
 }
 
-#app {
+#app, #results-template {
   width: 100%;
   min-height: 100vh;
   display: flex;

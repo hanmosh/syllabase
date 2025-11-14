@@ -31,8 +31,8 @@ export function renderHomePage(): void {
     quickSeachButtons.forEach((button) => {
         button.addEventListener('click', () => {
             const department = button.dataset.department!;
-            localStorage.setItem('selectedDepartmnt', department);
-            window.location.href = "./results.html";
+            localStorage.setItem('selectedDepartment', department);
+            window.location.href = "results.html";
         });
     });
 
@@ -42,8 +42,8 @@ export function renderHomePage(): void {
 
         const input = (departmentSearch.querySelector('input[name="search"]') as HTMLInputElement).value.trim();
         if (input) {
-            localStorage.setItem('selectedDepartmnt', input);
-            window.location.href = "./results.html";
+            localStorage.setItem('selectedDepartment', input);
+            window.location.href = "results.html";
         }
     });
 }

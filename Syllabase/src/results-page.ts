@@ -3,7 +3,10 @@ import { defaultCourses } from "./course-data";
 
 export function renderResultsPage(department: string): void {
     const app = document.querySelector<HTMLDivElement>('#results-template');
-    if (!app) return;
+    if (!app) {
+        console.error("No #results-template in HTML");
+        return;
+    };
 
     const filteredData = defaultCourses.filter((f: Course) => f.department === department);
 
@@ -39,12 +42,17 @@ export function renderResultsPage(department: string): void {
                                 <td>${f.courseNumber}</td>
                                 <td>${f.courseName}</td>
                                 <td>${f.university}</td>
+                                <td><button class="save-btn" data-course='${JSON.stringify(f)}'>⭐</button></td>
                             </tr>
                         `).join('')}
                 </tbody>
             </table>
+
+            
         </main>
     `;
+    // ${renderSaveOverlay()}
+    // setupSaveButtons();
 
     const resultsSearch = document.querySelector<HTMLFormElement>('#results-search');
     resultsSearch?.addEventListener('submit', (event) => {

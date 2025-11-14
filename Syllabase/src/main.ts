@@ -1,4 +1,3 @@
-import './style.css'
 import { initCourses, renderNewCoursePage, renderPublishedCoursesPage } from './courses'
 import { renderHomePage } from './homepage'
 import { renderResultsPage } from './results-page'
