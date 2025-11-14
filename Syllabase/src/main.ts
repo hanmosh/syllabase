@@ -1,5 +1,4 @@
-import './style.css'
-import { initCourses, renderNewCoursePage, renderPublishedCoursesPage, setCurrentUser } from './courses'
+import { initCourses, renderPublishedCoursesPage, setCurrentUser } from './courses'
 
 // Preset user credentials
 const PRESET_USER = {
@@ -18,6 +17,7 @@ initCourses()
 // Render the login form
 function renderLoginForm(): void {
   const app = document.querySelector<HTMLDivElement>('#app')!
+  if (!app) return;
 
   app.innerHTML = `
     <div class="login-container">
@@ -61,6 +61,7 @@ function renderLoginForm(): void {
 
 // Render the logged-in state - redirect to courses
 function renderLoggedInState(): void {
+  // window.location.href = 'search.html';
   renderPublishedCoursesPage()
 }
 
