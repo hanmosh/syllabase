@@ -27,7 +27,7 @@ body {
   min-height: 100vh;
 }
 
-#app {
+#app, #results-template, #search-page {
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -264,14 +264,22 @@ body {
 }
 
 #main-search-bar button:hover, #sub-search-bar button:hover {
-  background-color: #ffffff;
+  background-color: white;
+  color: #086769;
+}
+
+.course-page main {
+  margin: 50px;
+}
+
+.quick-search h2 {
   color: #086769;
 }
 
 .quick-search-links {
   display: grid;
   margin: 30px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
   width: 100%;
   justify-items: center;
@@ -282,7 +290,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 30px;
-  background-color: #ffffff;
+  background-color: white;
   color: #086769;
   text-align: center;
   text-decoration: none;
@@ -295,22 +303,109 @@ body {
 
 .quick-search-links button:hover {
   background-color: #086769;
-  color: #ffffff;
+  color: white;
 }
 
 /* Results Page */
+#resultsTitle {
+  color: #086769;
+}
+
 #results-database {
+  margin: 30px;
   border-collapse: collapse;
   width: 100%;
+  color: #086769;
 }
 
 #results-database tr {
-  border-bottom: 1px soild #ffffff;
+  border-bottom: 1px solid #086769;
 }
 
 #results-database tr:hover {
-  background-color: #718096;
+  background-color: #15d9c6;
 }
+
+#results-database th, #results-database td {
+  padding: 20px;
+}
+
+#results-database th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  font-weight: bold;
+  color: #086769;
+}
+
+.save-button {
+  cursor: pointer;
+}
+
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #086769;
+  color: #ffffff;
+  padding: 30px;
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+  width: 500px;
+  height: auto;
+}
+
+#my-folders {
+  font-size: 17px;
+}
+
+#select-folder {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.new-folder input[type="text"] {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.new-folder button {
+  padding: 8px 10px;
+  background-color: #086769;
+  font-size: 17px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.new-folder button:hover {
+  background-color: #ffffff;
+  color: #086769;
+}
+
+.actions button {
+  padding: 8px;
+  background-color: #ffffff;
+  color: #086769;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background-color: #086769;
+  color: #ffffff;
+}
+
 
 /* Responsive Design */
 @media (max-width: 480px) {
@@ -355,6 +450,7 @@ body {
   font-weight: 700;
   color: #086769;
   margin: 0;
+  text-decoration: none;
 }
 
 .hamburger-menu {

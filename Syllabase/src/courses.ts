@@ -37,7 +37,7 @@ export interface CourseState {
 }
 
 // State management
-let state: CourseState = {
+export let state: CourseState = {
   courses: [],
   folders: [],
   editingCourseId: undefined,
@@ -111,8 +111,31 @@ export function saveCourses(): void {
   localStorage.setItem('syllabase-courses', JSON.stringify(state))
 }
 
+// Load folders from localStorage
+export function loadFolders(): void {
+  const stored = localStorage.getItem('syllabase-folders')
+  if (stored) {
+    try {
+      const loadedFolders = JSON.parse(stored)
+      state = {
+        ...loadedFolders,
+        currentPage: loadedFolders.currentPage || 'folders',
+        folders: loadedFolders.folders || []
+      }
+    } catch (e) {
+      console.error('Error loading folders:', e)
+    }
+  }
+  loadProfilePicture()
+}
+
+// Save folders to localStorage
+export function saveFolders(): void {
+  localStorage.setItem('syllabase-folders', JSON.stringify(state));
+}
+
 // Render sidebar navigation
-function renderSidebar(): string {
+export function renderSidebar(): string {
   return `
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <nav class="sidebar" id="sidebar">
@@ -194,7 +217,7 @@ function closeSidebar(): void {
 }
 
 // Setup sidebar handlers
-function setupSidebar(): void {
+export function setupSidebar(): void {
   const hamburger = document.getElementById('hamburger-menu')
   const overlay = document.getElementById('sidebar-overlay')
   const menuItems = document.querySelectorAll('.sidebar-menu-item')
@@ -323,7 +346,7 @@ export function renderNewCoursePage(): void {
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
       </header>
 
       <main class="course-content">
@@ -813,7 +836,7 @@ export function renderPublishedCoursesPage(): void {
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
         <button class="hamburger-menu" id="hamburger-menu">
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
@@ -857,7 +880,7 @@ export function renderFoldersPage(): void {
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
       </header>
 
       <main class="course-content">
@@ -1000,7 +1023,7 @@ function renderFolderDetailPage(folderId: string): void {
           <div class="hamburger-line"></div>
           <div class="hamburger-line"></div>
         </button>
-        <h1 class="app-title">Syllabase</h1>
+        <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
       </header>
 
       <main class="course-content">
@@ -1421,7 +1444,7 @@ function setupPublishedCoursesPage(): void {
 }
 
 // Generate a unique ID
-function generateId(): string {
+export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2)
 }
 
