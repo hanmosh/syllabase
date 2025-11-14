@@ -364,6 +364,14 @@ body {
   color: #086769;
 }
 
+.empty-results-row {
+  text-align: center;
+  padding: 1rem;
+  font-weight: 600;
+  background: #f0f9f8;
+  color: #064648;
+}
+
 #results-database tr {
   border-bottom: 1px solid #086769;
 }

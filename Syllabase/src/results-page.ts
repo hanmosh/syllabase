@@ -82,48 +82,69 @@ export function renderResultsPage(department: string): void {
 
   setupSidebar();
 
+  const tableBody = app.querySelector<HTMLTableSectionElement>("tbody");
+  const baseResults = filteredData;
+
+  const renderTableRows = (coursesToRender: Course[]): void => {
+    if (!tableBody) return;
+
+    if (coursesToRender.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty-results-row">No courses match your search.</td>
+        </tr>
+      `;
+      bindSaveButtons();
+      return;
+    }
+
+    tableBody.innerHTML = coursesToRender
+      .map(
+        (t: Course) => `
+            <tr>
+                <td>${t.department}</td>
+                <td>${t.professor}</td>
+                <td>${t.courseNumber}</td>
+                <td>${t.courseName}</td>
+                <td>${t.university}</td>
+                <td>
+                    <i class="save-button fas fa-ribbon" data-course-id="${t.courseNumber}" style="font-size:20px; color:#086769;"></i>
+                </td>
+            </tr>
+        `,
+      )
+      .join("");
+
+    bindSaveButtons();
+  };
+
+  renderTableRows(baseResults);
+
   const resultsSearch =
     document.querySelector<HTMLFormElement>("#results-search");
+  const resultsSearchInput =
+    resultsSearch?.querySelector<HTMLInputElement>('input[name="search"]');
+
+  const handleResultsSearch = (): void => {
+    const query = resultsSearchInput?.value.trim().toLowerCase() || "";
+    if (!query) {
+      renderTableRows(baseResults);
+      return;
+    }
+
+    const filteredResults = baseResults.filter((course) =>
+      course.courseName.toLowerCase().includes(query),
+    );
+    renderTableRows(filteredResults);
+  };
+
+  resultsSearchInput?.addEventListener("input", handleResultsSearch);
+
   resultsSearch?.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    const input = (
-      resultsSearch.querySelector('input[name="search"]') as HTMLInputElement
-    ).value.trim();
-    const filteredData = defaultCourses.filter(
-      (f: Course) =>
-        f.department.toLowerCase() === department.toLowerCase() &&
-        (f.professor.toLowerCase().includes(input.toLowerCase()) ||
-          f.courseNumber.toLowerCase().includes(input) ||
-          f.courseName.toLowerCase().includes(input.toLowerCase()) ||
-          f.university.toLowerCase().includes(input.toLowerCase())),
-    );
-
-    const tableBody = app!.querySelector("tbody");
-    if (tableBody) {
-      tableBody.innerHTML = filteredData
-        .map(
-          (t: any) => `
-                <tr>
-                    <td>${t.department}</td>
-                    <td>${t.professor}</td>
-                    <td>${t.courseNumber}</td>
-                    <td>${t.courseName}</td>
-                    <td>${t.university}</td>
-                </tr>
-            `,
-        )
-        .join("");
-      bindSaveButtons();
-    }
+    handleResultsSearch();
   });
 
-  app.querySelectorAll(".save-button").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const courseId = (e.currentTarget as HTMLButtonElement).dataset.courseId!;
-      renderSaveOverlay(courseId);
-    });
-  });
 }
 
 function bindSaveButtons() {
