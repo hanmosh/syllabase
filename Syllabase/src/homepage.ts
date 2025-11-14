@@ -1,4 +1,4 @@
-import { renderSidebar, setupSidebar, renderPublishedCoursesPage, renderFoldersPage } from "./courses"
+import { renderSidebar, setupSidebar, initCourses } from "./courses"
 
 export function renderHomePage(): void {
     const app = document.querySelector<HTMLDivElement>('#search-page')
@@ -98,5 +98,6 @@ export function renderHomePage(): void {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    initCourses()
     renderHomePage()
 })

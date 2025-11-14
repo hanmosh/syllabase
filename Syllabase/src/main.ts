@@ -9,7 +9,6 @@ const PRESET_USER = {
 
 // State management
 let isLoggedIn = false
-let currentUser: { name: string; email: string } | null = null
 
 // Initialize courses module
 initCourses()
@@ -80,11 +79,6 @@ function setupLoginForm(): void {
     if (email === PRESET_USER.email && password === PRESET_USER.password) {
       // Successful login
       isLoggedIn = true
-      currentUser = {
-        name: PRESET_USER.name,
-        email: PRESET_USER.email
-      }
-      
       // Set current user in courses module
       setCurrentUser(PRESET_USER.name)
       
@@ -101,7 +95,6 @@ function setupLoginForm(): void {
 // Handle logout
 export function handleLogout(): void {
   isLoggedIn = false
-  currentUser = null
   const appContainer = document.querySelector<HTMLDivElement>('#app')
   if (appContainer) {
     renderLoginForm()
