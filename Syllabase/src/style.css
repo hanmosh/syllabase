@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -136,7 +136,7 @@ body {
 
 /* Buttons */
 .login-button {
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -150,7 +150,7 @@ body {
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px #086769;
+  box-shadow: 0 10px 20px #02514c;
 }
 
 .login-button:active {
@@ -179,8 +179,8 @@ body {
 .success-icon {
   width: 80px;
   height: 80px;
-  background: #086769;
-  border: 2px solid #15d9c6;
+  background: #02514c;
+  border: 2px solid #02514c;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -228,8 +228,8 @@ body {
 
 .logout-button {
   background: white;
-  color: #086769;
-  border: 2px solid #15d9c6;
+  color: #02514c;
+  border: 2px solid #02514c;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -239,7 +239,7 @@ body {
 }
 
 .logout-button:hover {
-  background: #086769;
+  background: #02514c;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
@@ -282,14 +282,14 @@ body {
 #main-search-bar input[type="text"]:focus,
 #sub-search-bar input[type="text"]:focus {
   outline: none;
-  border-color: #15d9c6;
+  border-color: #02514c;
   box-shadow: 0 10px 25px rgba(21, 217, 198, 0.25);
 }
 
 #main-search-bar button,
 #sub-search-bar button {
   padding: 0.95rem 1.5rem;
-  background-color: #086769;
+  background-color: #02514c;
   color: #fff;
   font-size: 1.1rem;
   font-weight: 600;
@@ -303,7 +303,7 @@ body {
 
 #main-search-bar button:hover,
 #sub-search-bar button:hover {
-  background: #15d9c6;
+  background: #02514c;
   color: #064648;
   transform: translateY(-1px);
 }
@@ -318,7 +318,7 @@ body {
 }
 
 .quick-search h2 {
-  color: #086769;
+  color: #02514c;
 }
 
 .quick-search-links {
@@ -332,7 +332,7 @@ body {
 
 .quick-search-empty {
   grid-column: 1 / -1;
-  color: #086769;
+  color: #02514c;
   font-size: 1.05rem;
   margin-top: 1rem;
 }
@@ -343,7 +343,7 @@ body {
   justify-content: center;
   padding: 30px;
   background-color: white;
-  color: #086769;
+  color: #02514c;
   text-align: center;
   text-decoration: none;
   width: 300px;
@@ -354,20 +354,20 @@ body {
 }
 
 .quick-search-links button:hover {
-  background-color: #086769;
+  background-color: #02514c;
   color: white;
 }
 
 /* Results Page */
 #resultsTitle {
-  color: #086769;
+  color: #02514c;
 }
 
 #results-database {
   margin: 30px;
   border-collapse: collapse;
   width: 100%;
-  color: #086769;
+  color: #02514c;
 }
 
 .empty-results-row {
@@ -379,11 +379,11 @@ body {
 }
 
 #results-database tr {
-  border-bottom: 1px solid #086769;
+  border-bottom: 1px solid #02514c;
 }
 
 #results-database tr:hover {
-  background-color: #15d9c6;
+  background-color: rgba(2, 81, 76, 0.08);
 }
 
 #results-database th, #results-database td {
@@ -395,7 +395,7 @@ body {
   padding-bottom: 12px;
   text-align: left;
   font-weight: bold;
-  color: #086769;
+  color: #02514c;
 }
 
 .save-button {
@@ -414,7 +414,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background-color: #086769;
+  background-color: #02514c;
   color: #ffffff;
   padding: 30px;
   border: 1px solid #ffffff;
@@ -440,7 +440,7 @@ body {
 }
 
 .chat-header h2 {
-  color: #086769;
+  color: #02514c;
   margin: 0 0 0.3rem;
 }
 
@@ -489,7 +489,7 @@ body {
 
 .chat-message.user {
   align-self: flex-end;
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   color: #ffffff;
 }
 
@@ -506,8 +506,8 @@ body {
 
 .chat-quick-prompts button {
   background: #e6fffa;
-  border: 2px solid #15d9c6;
-  color: #086769;
+  border: 2px solid #02514c;
+  color: #02514c;
   border-radius: 999px;
   padding: 0.45rem 1rem;
   font-size: 0.9rem;
@@ -517,7 +517,7 @@ body {
 }
 
 .chat-quick-prompts button:hover {
-  background: #15d9c6;
+  background: #02514c;
   color: #fff;
 }
 
@@ -537,12 +537,12 @@ body {
 
 .chat-form input[type="text"]:focus {
   outline: none;
-  border-color: #15d9c6;
+  border-color: #02514c;
   box-shadow: 0 0 0 3px rgba(21, 217, 198, 0.15);
 }
 
 .chat-form button {
-  background: #086769;
+  background: #02514c;
   color: white;
   border: none;
   border-radius: 14px;
@@ -554,7 +554,7 @@ body {
 }
 
 .chat-form button:hover {
-  background: #15d9c6;
+  background: #02514c;
   color: #064648;
 }
 
@@ -576,7 +576,7 @@ body {
 
 .syllabus-header h2 {
   font-size: 2rem;
-  color: #086769;
+  color: #02514c;
   margin-bottom: 0.25rem;
 }
 
@@ -607,13 +607,13 @@ body {
   display: flex;
   gap: 0.75rem;
   align-items: center;
-  color: #086769;
+  color: #02514c;
 }
 
 .syllabus-icon-btn {
   background: transparent;
-  border: 2px solid #15d9c6;
-  color: #086769;
+  border: 2px solid #02514c;
+  color: #02514c;
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -624,7 +624,7 @@ body {
 }
 
 .syllabus-icon-btn:hover {
-  background: #15d9c6;
+  background: #02514c;
   color: white;
   transform: translateY(-1px);
 }
@@ -655,7 +655,7 @@ body {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background: #086769;
+  background: #02514c;
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 12px;
@@ -706,7 +706,7 @@ body {
 
 .new-folder button {
   padding: 8px 10px;
-  background-color: #086769;
+  background-color: #02514c;
   font-size: 17px;
   border-radius: 8px;
   cursor: pointer;
@@ -714,20 +714,20 @@ body {
 
 .new-folder button:hover {
   background-color: #ffffff;
-  color: #086769;
+  color: #02514c;
 }
 
 .actions button {
   padding: 8px;
   background-color: #ffffff;
-  color: #086769;
+  color: #02514c;
   font-size: 13px;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .actions button:hover {
-  background-color: #086769;
+  background-color: #02514c;
   color: #ffffff;
 }
 
@@ -747,7 +747,7 @@ body {
 
 @media (prefers-color-scheme: light) {
   :root {
-    background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+    background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   }
 }
 
@@ -773,7 +773,7 @@ body {
 .app-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #086769;
+  color: #02514c;
   margin: 0;
   text-decoration: none;
 }
@@ -798,7 +798,7 @@ body {
 .hamburger-line {
   width: 24px;
   height: 3px;
-  background: #086769;
+  background: #02514c;
   border-radius: 2px;
 }
 
@@ -832,7 +832,7 @@ body {
 .back-btn {
   background: none;
   border: none;
-  color: #086769;
+  color: #02514c;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -845,7 +845,7 @@ body {
 }
 
 .back-btn:hover {
-  color: #15d9c6;
+  color: #02514c;
   transform: translateX(-4px);
 }
 
@@ -888,7 +888,7 @@ body {
 .form-field input:focus,
 .form-field textarea:focus {
   outline: none;
-  border-color: #15d9c6;
+  border-color: #02514c;
   box-shadow: 0 0 0 3px rgba(21, 217, 198, 0.1);
 }
 
@@ -899,7 +899,7 @@ body {
 
 /* Custom Fields */
 .custom-field {
-  border-left: 3px solid #15d9c6;
+  border-left: 3px solid #02514c;
   padding-left: 1rem;
   background: #f7fafc;
   padding: 1rem;
@@ -946,8 +946,8 @@ body {
 /* Buttons */
 .add-field-btn {
   background: #f7fafc;
-  color: #15d9c6;
-  border: 2px dashed #15d9c6;
+  color: #02514c;
+  border: 2px dashed #02514c;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -969,7 +969,7 @@ body {
 
 .publish-btn {
   flex: 1;
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -988,8 +988,8 @@ body {
 .secondary-btn {
   flex: 1;
   background: white;
-  color: #086769;
-  border: 2px solid #15d9c6;
+  color: #02514c;
+  border: 2px solid #02514c;
   border-radius: 8px;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -1023,7 +1023,7 @@ body {
 }
 
 .new-course-btn {
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -1058,7 +1058,7 @@ body {
 .course-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border-color: #15d9c6;
+  border-color: #02514c;
 }
 
 .course-card-header {
@@ -1083,8 +1083,8 @@ body {
 
 .chat-folder-btn {
   background: white;
-  color: #086769;
-  border: 2px solid #15d9c6;
+  color: #02514c;
+  border: 2px solid #02514c;
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -1098,7 +1098,7 @@ body {
 }
 
 .chat-folder-btn:hover {
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   color: #fff;
   transform: translateY(-1px);
 }
@@ -1111,7 +1111,7 @@ body {
 
 .edit-course-btn,
 .edit-folder-btn {
-  background: #086769;
+  background: #02514c;
   color: white;
   border: none;
   border-radius: 6px;
@@ -1124,7 +1124,7 @@ body {
 
 .edit-course-btn:hover,
 .edit-folder-btn:hover {
-  background: #15d9c6;
+  background: #02514c;
   transform: scale(1.05);
 }
 
@@ -1167,7 +1167,7 @@ body {
 }
 
 .detail-item strong {
-  color: #086769;
+  color: #02514c;
 }
 
 /* Empty State */
@@ -1214,7 +1214,7 @@ body {
 .form-field-with-upload input:focus,
 .form-field-with-upload textarea:focus {
   outline: none;
-  border-color: #15d9c6;
+  border-color: #02514c;
   box-shadow: 0 0 0 3px rgba(21, 217, 198, 0.1);
 }
 
@@ -1227,8 +1227,8 @@ body {
 
 .upload-file-btn {
   background: #e6fffa;
-  color: #086769;
-  border: 2px solid #15d9c6;
+  color: #02514c;
+  border: 2px solid #02514c;
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
@@ -1239,7 +1239,7 @@ body {
 }
 
 .upload-file-btn:hover {
-  background: #15d9c6;
+  background: #02514c;
   color: white;
 }
 
@@ -1275,7 +1275,7 @@ body {
 }
 
 .view-file-btn {
-  background: #086769;
+  background: #02514c;
   color: white;
   border: none;
   border-radius: 4px;
@@ -1288,7 +1288,7 @@ body {
 }
 
 .view-file-btn:hover {
-  background: #15d9c6;
+  background: #02514c;
 }
 
 .remove-file-btn {
@@ -1361,7 +1361,7 @@ body {
   gap: 0.5rem;
   padding: 0.4rem 0.75rem;
   background: #e6fffa;
-  border: 1px solid #15d9c6;
+  border: 1px solid #02514c;
   border-radius: 6px;
   font-size: 0.85rem;
 }
@@ -1380,7 +1380,7 @@ body {
 }
 
 .view-pdf-btn {
-  background: #086769;
+  background: #02514c;
   color: white;
   border: none;
   border-radius: 4px;
@@ -1392,7 +1392,7 @@ body {
 }
 
 .view-pdf-btn:hover {
-  background: #15d9c6;
+  background: #02514c;
 }
 
 /* Sidebar overlay */
@@ -1452,7 +1452,7 @@ body {
 .sidebar-user-icon {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #15d9c6 0%, #086769 100%);
+  background: linear-gradient(135deg, #02514c 0%, #02514c 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1510,7 +1510,7 @@ body {
 
 .sidebar-user-greeting {
   font-weight: 600;
-  color: #086769;
+  color: #02514c;
   font-size: 1rem;
   flex: 1;
 }
@@ -1539,14 +1539,14 @@ body {
 
 .sidebar-menu-item:hover {
   background-color: #f3f4f6;
-  color: #15d9c6;
+  color: #02514c;
 }
 
 .sidebar-menu-item.active {
   background-color: #e6fffa;
-  color: #086769;
+  color: #02514c;
   font-weight: 600;
-  border-right: 3px solid #15d9c6;
+  border-right: 3px solid #02514c;
 }
 
 .menu-icon {
@@ -1600,7 +1600,7 @@ body {
 .folder-icon {
   width: 28px;
   height: 28px;
-  color: #15d9c6;
+  color: #02514c;
   flex-shrink: 0;
 }
 
@@ -1754,7 +1754,7 @@ body {
 }
 
 .course-select-item:hover {
-  border-color: #15d9c6;
+  border-color: #02514c;
   background: #f0fdfa;
   transform: translateX(4px);
 }
@@ -1778,7 +1778,7 @@ body {
 .course-select-icon {
   width: 24px;
   height: 24px;
-  color: #15d9c6;
+  color: #02514c;
   flex-shrink: 0;
 }
 
@@ -1820,7 +1820,7 @@ body {
 
 .course-preview-header h2 {
   margin: 0;
-  color: #086769;
+  color: #02514c;
   font-size: 2rem;
   font-weight: 700;
 }
@@ -1870,7 +1870,7 @@ body {
   background: white;
   padding: 1rem 1.25rem;
   font-weight: 700;
-  color: #086769;
+  color: #02514c;
   font-size: 1rem;
   border-bottom: 2px solid #e2e8f0;
 }
@@ -1907,7 +1907,7 @@ body {
 .preview-show-more-files {
   background: none;
   border: none;
-  color: #15d9c6;
+  color: #02514c;
   font-weight: 700;
   cursor: pointer;
   padding: 0.75rem 0;
@@ -1920,7 +1920,7 @@ body {
 .preview-show-more:hover,
 .preview-show-less:hover,
 .preview-show-more-files:hover {
-  color: #086769;
+  color: #02514c;
 }
 
 .preview-files-list {
@@ -1937,7 +1937,7 @@ body {
   padding: 0.75rem 1rem;
   background: white;
   border-radius: 8px;
-  border: 1px solid #15d9c6;
+  border: 1px solid #02514c;
 }
 
 .preview-file-icon {

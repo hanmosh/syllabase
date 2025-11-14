@@ -72,7 +72,7 @@ export function renderResultsPage(department: string): void {
                                     <td>${f.courseName}</td>
                                     <td>${f.university}</td>
                                     <td>
-                                        <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#086769;"></i>
+                                        <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#02514c;"></i>
                                     </td>
                                 </tr>
                             `,
@@ -112,7 +112,7 @@ export function renderResultsPage(department: string): void {
                 <td>${t.courseName}</td>
                 <td>${t.university}</td>
                 <td>
-                    <i class="save-button fas fa-ribbon" data-course-id="${t.courseNumber}" style="font-size:20px; color:#086769;"></i>
+                    <i class="save-button fas fa-ribbon" data-course-id="${t.courseNumber}" style="font-size:20px; color:#02514c;"></i>
                 </td>
             </tr>
         `,
