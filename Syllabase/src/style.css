@@ -243,6 +243,75 @@ body {
   transform: translateY(0);
 }
 
+/* Home Page */
+#main-search-bar, #sub-search-bar {
+  display: flex;
+  align-items: center;
+}
+
+#main-search-bar input[type="text"], #sub-search-bar input[type="text"] {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+#main-search-bar button, #sub-search-bar button {
+  padding: 8px 10px;
+  background-color: #086769;
+  font-size: 17px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#main-search-bar button:hover, #sub-search-bar button:hover {
+  background-color: #ffffff;
+  color: #086769;
+}
+
+.quick-search-links {
+  display: grid;
+  margin: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  justify-items: center;
+}
+
+.quick-search-links button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background-color: #ffffff;
+  color: #086769;
+  text-align: center;
+  text-decoration: none;
+  width: 300px;
+  height: 45px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.quick-search-links button:hover {
+  background-color: #086769;
+  color: #ffffff;
+}
+
+/* Results Page */
+#results-database {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#results-database tr {
+  border-bottom: 1px soild #ffffff;
+}
+
+#results-database tr:hover {
+  background-color: #718096;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
   .login-card,
