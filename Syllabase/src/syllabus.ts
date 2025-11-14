@@ -6,6 +6,17 @@ function renderSyllabusPage(): void {
 
   const source = localStorage.getItem("syllabusSource") || "Course";
 
+  const learningObjectives = [
+    "Critically evaluate user needs and translate them into interaction requirements [CSC 123]",
+    "Produce low-fidelity prototypes and iterate using evidence-based design critiques [CSC 123]",
+    "Conduct usability tests, synthesize findings, and communicate design implications [CSC 222]",
+    "Collaborate in multidisciplinary teams to deliver polished interactive experiences [CSC 222 & 123]"
+  ];
+
+  const sourceLabel = source.includes("CSC")
+    ? `${source} - Human Computer Interaction`
+    : `${source} - Collaborative Syllabus`;
+
   app.innerHTML = `
     ${renderSidebar()}
     <div class="course-page">
@@ -21,18 +32,19 @@ function renderSyllabusPage(): void {
       <main class="course-content">
         <div class="syllabus-wrapper">
           <div class="syllabus-header">
-            <h2>${source} - Collaborative Syllabus</h2>
-            <p>Generated overview of weekly checkpoints</p>
+            <h2>${sourceLabel}</h2>
+            <p>Learning objectives generated from CSC 123 and CSC 222</p>
           </div>
           <div class="syllabus-table">
-            ${["Week 1", "Week 3", "Week 5", "Week 7"].map((label, index) => `
+            ${learningObjectives
+              .map((objective, index) => `
               <div class="syllabus-row">
                 <div class="syllabus-icons">
-                  <button type="button" class="syllabus-icon-btn syllabus-check" data-row="${index}" aria-label="Mark ${label} complete">✔</button>
-                  <button type="button" class="syllabus-icon-btn syllabus-remove" data-row="${index}" aria-label="Remove ${label}">✖</button>
+                  <button type="button" class="syllabus-icon-btn syllabus-check" data-row="${index}" aria-label="Mark objective ${index + 1} complete">✔</button>
+                  <button type="button" class="syllabus-icon-btn syllabus-remove" data-row="${index}" aria-label="Remove objective ${index + 1}">✖</button>
                 </div>
                 <div class="syllabus-text">
-                  <strong>${label}</strong> — Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. - ${String.fromCharCode(65 + index)}
+                  <strong>Objective ${index + 1}</strong> — ${objective}
                 </div>
               </div>
             `).join("")}

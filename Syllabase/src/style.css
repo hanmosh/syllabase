@@ -314,7 +314,8 @@ body {
 }
 
 .course-page main {
-  margin: 50px;
+  margin: 0;
+  padding: 0;
 }
 
 .quick-search h2 {
@@ -363,10 +364,14 @@ body {
   color: #02514c;
 }
 
+#results-database-wrapper {
+  border-radius: 18px;
+  padding: 1.5rem 2rem;
+}
+
 #results-database {
-  margin: 30px;
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
   color: #02514c;
 }
 
@@ -428,7 +433,7 @@ body {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 1.25rem 1rem 3rem;
+  padding: 1.25rem 0 3rem;
   min-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
@@ -436,7 +441,7 @@ body {
 }
 
 .chat-header {
-  padding: 0 0.5rem;
+  padding: 0px 0.5rem 0;
 }
 
 .chat-header h2 {
@@ -458,8 +463,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  width: calc(100% - 2rem);
-  margin-right: 1.5rem;
+  width: 100%;
+  margin-right: 0;
   align-self: stretch;
 }
 
@@ -754,8 +759,17 @@ body {
 /* Course Pages Styles */
 .course-page {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 2rem);
   background: #f7fafc;
+  padding: 1.5rem;
+}
+
+.course-inner-wrapper {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(2, 81, 76, 0.1);
+  padding: 1rem;
+  min-height: calc(100vh - 5rem);
 }
 
 /* App Header */
@@ -768,6 +782,7 @@ body {
   align-items: center;
   position: relative;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
 }
 
 .app-title {
@@ -808,7 +823,8 @@ body {
 
 /* Course Content */
 .course-content {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -1005,8 +1021,9 @@ body {
 
 /* Published Courses Page */
 .courses-container {
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .courses-header {
@@ -1053,6 +1070,7 @@ body {
   cursor: pointer;
   transition: all 0.3s;
   border: 2px solid transparent;
+  width: 100%;
 }
 
 .course-card:hover {

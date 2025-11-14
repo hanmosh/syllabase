@@ -49,37 +49,39 @@ export function renderResultsPage(department: string): void {
 
                 <h2 id="resultsTitle">Results for ${department}</h2>
 
-                <table id="results-database">
-                    <thead>
-                        <tr>
-                            <th>Department</th>
-                            <th>Professor</th>
-                            <th>Course Number</th>
-                            <th>Course Name</th>
-                            <th>University</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                <div id="results-database-wrapper">
+                    <table id="results-database">
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th>Professor</th>
+                                <th>Course Number</th>
+                                <th>Course Name</th>
+                                <th>University</th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        ${filteredData
-                          .map(
-                            (f: any) => `
-                                <tr>
-                                    <td>${f.department}</td>
-                                    <td>${f.professor}</td>
-                                    <td>${f.courseNumber}</td>
-                                    <td>${f.courseName}</td>
-                                    <td>${f.university}</td>
-                                    <td>
-                                        <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#02514c;"></i>
-                                    </td>
-                                </tr>
-                            `,
-                          )
-                          .join("")}
-                    </tbody>
-                </table>
+                        <tbody>
+                            ${filteredData
+                              .map(
+                                (f: any) => `
+                                    <tr data-course-id="${f.courseNumber}">
+                                        <td>${f.department}</td>
+                                        <td>${f.professor}</td>
+                                        <td>${f.courseNumber}</td>
+                                        <td>${f.courseName}</td>
+                                        <td>${f.university}</td>
+                                        <td>
+                                            <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#02514c;"></i>
+                                        </td>
+                                    </tr>
+                                `,
+                              )
+                              .join("")}
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
     `;
