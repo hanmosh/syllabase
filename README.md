@@ -15,7 +15,7 @@
 ## Team contribution statement 
 - Josh: Log in page, courses page
 - Diego: Main sidebar, user folders, 
-- Sanaia: Search page
+- Sanaia: Search page, results page
 - Hannah: Syllabus/chatbot page
   
 
