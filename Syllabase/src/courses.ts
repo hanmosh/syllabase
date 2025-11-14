@@ -37,7 +37,7 @@ export interface CourseState {
 }
 
 // State management
-let state: CourseState = {
+export let state: CourseState = {
   courses: [],
   folders: [],
   editingCourseId: undefined,
@@ -1421,7 +1421,7 @@ function setupPublishedCoursesPage(): void {
 }
 
 // Generate a unique ID
-function generateId(): string {
+export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2)
 }
 

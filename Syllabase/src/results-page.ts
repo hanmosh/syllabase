@@ -1,6 +1,7 @@
 import type { Course } from "./course-data";
 import { defaultCourses } from "./course-data";
-import { renderSidebar, setupSidebar } from "./courses"
+import { renderSidebar, saveCourses, setupSidebar, state, generateId } from "./courses"
+import type { Folder } from "./courses"
 
 export function renderResultsPage(department: string): void {
     const app = document.querySelector<HTMLDivElement>('#results-template');
@@ -56,14 +57,12 @@ export function renderResultsPage(department: string): void {
                                     <td>${f.courseName}</td>
                                     <td>${f.university}</td>
                                     <td>
-                                        <i id="save-button" class="fas fa-ribbon" style="font-size:20px; color:#086769;"></i>
+                                        <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#086769;"></i>
                                     </td>
                                 </tr>
                             `).join('')}
                     </tbody>
                 </table>
-
-                ${renderSaveOverlay()}
             </main>
         </div>
     `;
@@ -95,50 +94,95 @@ export function renderResultsPage(department: string): void {
                     <td>${t.university}</td>
                 </tr>
             `).join('');
+            bindSaveButtons();
         }
     });
-}
 
-function renderSaveOverlay(): string {
-    return `
-        <div id="add-to-folder-overlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2>Save to Folder</h2>
-
-                <label>My Folders</label>
-                <select id="select-folder"></select>
-
-                <div class="new-folder">
-                    <input id="folder-name" placeholder="New Folder Name" />
-                    <button><i class="fas fa-plus"></i></button>
-                </div>
-
-                <div class="actions">
-                    <button id="cancel">Cancel</button>
-                    <button id="save">Save</button>
-                </div>
-            </div>
-        </div>
-    `
-}
-
-function renderActionButtons() {
-    const buttons = document.querySelectorAll<HTMLButtonElement>('#save-button');
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const courseData = JSON.parse(button.dataset.course!);
-            openOverlay(courseData);
+    app.querySelectorAll('.save-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const courseId = (e.currentTarget as HTMLButtonElement).dataset.courseId!;
+            renderSaveOverlay(courseId);
         });
     });
 }
 
-let saveCourse: any = null;
-function openOverlay(course: any) {
-    saveCourse = course;
+function bindSaveButtons() {
+    document.querySelectorAll<HTMLButtonElement>('#save-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const courseId = button.dataset.courseId!;
+            renderSaveOverlay(courseId);
+        });
+    });
+}
 
-    const overlay = document.querySelector<HTMLDivElement>('#add-to-folder-overlay')!;
-    overlay.classList.remove('hidden');
-    
+function renderSaveOverlay(courseId: string): void {
+    const overlay = document.createElement('div');
+    overlay.id = 'add-to-folder-overlay';
+    overlay.className = 'overlay';
+
+    overlay.innerHTML = `
+        <div class="overlay-content">
+            <h3>Save to Folder</h3>
+
+            <label>My Folders</label>
+            <select id="select-folder">
+                ${state.folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('')}
+            </select>
+
+            <div class="new-folder">
+                <input id="folder-name" placeholder="New Folder Name" />
+                <button id="create-folder"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div class="actions">
+                <button id="cancel">Cancel</button>
+                <button id="save">Save</button>
+            </div>
+        </div>
+
+    `
+
+    document.body.appendChild(overlay);
+
+    const cancelButton = document.getElementById('cancel')!;
+    const saveButton = document.getElementById('save')!;
+    const createFolderButton = document.getElementById('create-folder')!;
+    const selectFolder = document.getElementById('select-folder') as HTMLSelectElement;
+    const newFolderName = document.getElementById('folder-name') as HTMLInputElement;
+    const closeOverlay = () => overlay.remove();
+
+    cancelButton?.addEventListener('click', closeOverlay);
+
+    createFolderButton.addEventListener('click', () => {
+        const folderName = newFolderName.value.trim();
+        if (!folderName) {
+            return;
+        }
+
+        const newFolder: Folder = {
+            id: generateId(),
+            name: folderName,
+            courseIds: []
+        };
+
+        state.folders.push(newFolder);
+        saveCourses();
+
+        selectFolder.innerHTML = state.folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
+        newFolderName.value = '';
+    });
+
+    saveButton.addEventListener('click', () => {
+        const folderId = selectFolder.value;
+        const folder = state.folders.find(f => f.id === folderId);
+        if (!folder) {
+            return;
+        }
+
+        if (!folder.courseIds.includes(courseId)) folder.courseIds.push(courseId);
+            saveCourses();
+            closeOverlay();
+    });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
