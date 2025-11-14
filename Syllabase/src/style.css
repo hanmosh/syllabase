@@ -27,13 +27,19 @@ body {
   min-height: 100vh;
 }
 
-#app, #results-template, #search-page, #chat-page {
+#app, #results-template, #search-page, #chat-page, #syllabus-page {
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
+}
+
+#chat-page,
+#syllabus-page {
+  display: block;
+  padding: 0;
 }
 
 /* Login Container */
@@ -492,6 +498,29 @@ body {
   opacity: 0.85;
 }
 
+.chat-quick-prompts {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.chat-quick-prompts button {
+  background: #e6fffa;
+  border: 2px solid #15d9c6;
+  color: #086769;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat-quick-prompts button:hover {
+  background: #15d9c6;
+  color: #fff;
+}
+
 .chat-form {
   display: flex;
   gap: 0.75rem;
@@ -527,6 +556,136 @@ body {
 .chat-form button:hover {
   background: #15d9c6;
   color: #064648;
+}
+
+/* Syllabus Page */
+.syllabus-wrapper {
+  width: min(100%, 1050px);
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+.syllabus-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.syllabus-header h2 {
+  font-size: 2rem;
+  color: #086769;
+  margin-bottom: 0.25rem;
+}
+
+.syllabus-header p {
+  color: #4a5568;
+  margin: 0;
+}
+
+.syllabus-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.syllabus-row {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.syllabus-row:first-of-type {
+  border-top: none;
+}
+
+.syllabus-icons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: #086769;
+}
+
+.syllabus-icon-btn {
+  background: transparent;
+  border: 2px solid #15d9c6;
+  color: #086769;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.syllabus-icon-btn:hover {
+  background: #15d9c6;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.syllabus-icons.syllabus-complete .syllabus-icon-btn {
+  display: none;
+}
+
+.syllabus-text {
+  color: #2d3748;
+  line-height: 1.4;
+}
+
+.syllabus-download {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.syllabus-download .primary-btn {
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  border-radius: 999px;
+  box-shadow: 0 15px 35px rgba(21, 217, 198, 0.25);
+}
+
+.syllabus-download-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #086769;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  animation: fadeSlideIn 0.3s ease forwards;
+}
+
+.syllabus-download-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#dismiss-toast-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 #my-folders {

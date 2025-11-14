@@ -43,6 +43,10 @@ function renderChatInterface(): void {
 
         <div class="chat-panel">
           <div id="chat-messages" class="chat-messages"></div>
+          <div class="chat-quick-prompts">
+            <button type="button" id="prompt-compare">Compare the learning objectives for these course</button>
+            <button type="button" id="prompt-syllabus">Create a syllabus based off these courses</button>
+          </div>
           <form id="chat-form" class="chat-form">
             <input
               type="text"
@@ -67,6 +71,12 @@ function setupChatHandlers(contextName: string): void {
     document.querySelector<HTMLDivElement>("#chat-messages");
   const chatForm = document.querySelector<HTMLFormElement>("#chat-form");
   const chatInput = document.querySelector<HTMLInputElement>("#chat-input");
+  const comparePrompt = document.querySelector<HTMLButtonElement>(
+    "#prompt-compare"
+  );
+  const syllabusPrompt = document.querySelector<HTMLButtonElement>(
+    "#prompt-syllabus"
+  );
 
   if (!messageContainer || !chatForm || !chatInput) return;
 
@@ -106,6 +116,20 @@ function setupChatHandlers(contextName: string): void {
     });
     renderMessages();
     chatInput.value = "";
+  });
+
+  comparePrompt?.addEventListener("click", () => {
+    messages.push({
+      sender: "system",
+      text: `After reviewing available material for ${contextName}, the overlapping learning objectives are collaboration, critical thinking, and iterative project work. Differences include emphasis on research depth versus presentation skills.`,
+      timestamp: formatTime(new Date()),
+    });
+    renderMessages();
+  });
+
+  syllabusPrompt?.addEventListener("click", () => {
+    localStorage.setItem("syllabusSource", contextName);
+    window.location.href = "syllabus.html";
   });
 }
 
