@@ -10,6 +10,7 @@ import {
   saveFolders,
   initCourses,
   showCoursePreviewModal,
+  setCurrentPage
 } from "./courses";
 import type { Folder, Course as SavedCourse } from "./courses";
 
@@ -21,6 +22,8 @@ export function renderResultsPage(department: string): void {
     console.error("No #results-template in HTML");
     return;
   }
+
+  setCurrentPage("homepage")
 
   const filteredData = defaultCourses.filter(
     (f: SearchCourse) => f.department.toLowerCase() === department.toLowerCase(),
