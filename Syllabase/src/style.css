@@ -384,7 +384,7 @@ body {
 }
 
 #results-database tr {
-  border-bottom: 1px solid #02514c;
+  border-bottom: 2px solid #02514c;
 }
 
 #results-database tr:hover {
@@ -419,10 +419,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background-color: #02514c;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #02514c;
   padding: 30px;
-  border: 1px solid #ffffff;
+  border: 2px solid #02514c;
   border-radius: 12px;
   width: 500px;
   height: auto;
@@ -703,6 +703,11 @@ body {
   border-radius: 8px;
 }
 
+.new-folder {
+  display: flex;
+  flex-direction: row;
+}
+
 .new-folder input[type="text"] {
   padding: 8px 10px;
   font-size: 1rem;
@@ -727,6 +732,7 @@ body {
   background-color: #ffffff;
   color: #02514c;
   font-size: 13px;
+  border: 1px solid #02514c;
   border-radius: 8px;
   cursor: pointer;
 }

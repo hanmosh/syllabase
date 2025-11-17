@@ -58,7 +58,7 @@ export function renderResultsPage(department: string): void {
                                 <th>Course Number</th>
                                 <th>Course Name</th>
                                 <th>University</th>
-                                <th></th>
+                                <th>Save Course</th>
                             </tr>
                         </thead>
 
@@ -73,7 +73,7 @@ export function renderResultsPage(department: string): void {
                                         <td>${f.courseName}</td>
                                         <td>${f.university}</td>
                                         <td>
-                                            <i class="save-button fas fa-ribbon" data-course-id="${f.courseNumber}" style="font-size:20px; color:#02514c;"></i>
+                                            <i class="save-button fa fa-save" data-course-id="${f.courseNumber}" style="font-size:20px; color:#02514c;"></i>
                                         </td>
                                     </tr>
                                 `,
@@ -114,7 +114,7 @@ export function renderResultsPage(department: string): void {
                 <td>${t.courseName}</td>
                 <td>${t.university}</td>
                 <td>
-                    <i class="save-button fas fa-ribbon" data-course-id="${t.courseNumber}" style="font-size:20px; color:#02514c;"></i>
+                    <i class="save-button fa fa-save" data-course-id="${t.courseNumber}" style="font-size:20px; color:#02514c;"></i>
                 </td>
             </tr>
         `,
@@ -236,7 +236,7 @@ function renderSaveOverlay(courseId: string): void {
 
             <div class="new-folder">
                 <input id="folder-name" type="text" placeholder="New Folder Name" />
-                <button id="create-folder"><i class="fas fa-plus"></i></button>
+                <button id="create-folder"><p>Save New Folder</p></button>
             </div>
 
             <div class="actions">
@@ -319,7 +319,18 @@ function renderSaveOverlay(courseId: string): void {
 
     closeOverlay();
   });
-}
+
+  overlay.addEventListener("click", (event) => {
+    const content = overlay.querySelector(".overlay-content")!;
+    if (!content.contains(event.target as Node)) {
+      overlay.remove();
+    }
+  });
+
+  // Prevent inner clicks from closing
+  overlay.querySelector(".overlay-content")!
+    .addEventListener("click", (e) => e.stopPropagation());
+  }
 
 document.addEventListener("DOMContentLoaded", () => {
   initCourses();
