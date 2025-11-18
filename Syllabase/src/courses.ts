@@ -17,6 +17,7 @@ export interface Course {
   professorName?: FieldData;
   courseName?: FieldData;
   modules?: FieldData;
+  syllabus?: FieldData;
   assignments?: FieldData;
   files?: FieldData;
   customFields?: { [key: string]: FieldData };
@@ -297,11 +298,16 @@ function renderFieldWithUpload(
   label: string,
   fieldData: FieldData | undefined,
   inputType: "input" | "textarea" = "input",
-  allowFileUpload = true
+  allowFileUpload = true,
+  uploadHintText?: string
 ): string {
   const textValue = fieldData?.text || "";
   const files = fieldData?.files || [];
   const fieldId = fieldName.toLowerCase().replace(/\s+/g, "-");
+  const hintText =
+    allowFileUpload && uploadHintText
+      ? uploadHintText
+      : "Attaching a PDF is optional.";
 
   return `
     <div class="form-field-with-upload" data-field-name="${fieldName}">
@@ -336,9 +342,9 @@ function renderFieldWithUpload(
             style="display: none;"
           />
           <button type="button" class="upload-file-btn" data-field-id="file-${fieldId}">
-            📎 Upload PDF${files.length > 0 ? "s" : ""}
+            📎 Attach PDF${files.length > 0 ? "s" : ""}
           </button>
-          <p class="upload-hint">PDF uploads are optional.</p>
+          <p class="upload-hint">${hintText}</p>
           <div class="uploaded-files-list" data-field-name="${fieldName}">
             ${files
               .map(
@@ -421,8 +427,14 @@ export function renderNewCoursePage(): void {
             )}
             ${renderFieldWithUpload(
               "modules",
-              "Modules",
+              "Lecture Slides",
               editingCourse?.modules,
+              "textarea"
+            )}
+            ${renderFieldWithUpload(
+              "syllabus",
+              "Syllabus",
+              editingCourse?.syllabus,
               "textarea"
             )}
             ${renderFieldWithUpload(
@@ -433,9 +445,11 @@ export function renderNewCoursePage(): void {
             )}
             ${renderFieldWithUpload(
               "files",
-              "Files",
+              "Additional Files",
               editingCourse?.files,
-              "textarea"
+              "textarea",
+              true,
+              "Put textbook links, additional resourses, and other files here."
             )}
 
             <div id="custom-fields-container">
@@ -504,9 +518,9 @@ function renderCustomFields(customFields: {
                 style="display: none;"
               />
               <button type="button" class="upload-file-btn" data-field-id="file-custom-${index}">
-                📎 Upload PDF${files.length > 0 ? "s" : ""}
+                📎 Attach PDF${files.length > 0 ? "s" : ""}
               </button>
-              <p class="upload-hint">PDF uploads are optional.</p>
+              <p class="upload-hint">Attaching a PDF is optional.</p>
               <div class="uploaded-files-list" data-field-index="${index}">
                 ${files
                   .map(
@@ -813,9 +827,9 @@ function addCustomField(): void {
           style="display: none;"
         />
         <button type="button" class="upload-file-btn" data-field-id="file-custom-${fieldCount}">
-          📎 Upload PDFs
+          📎 Attach PDFs
         </button>
-        <p class="upload-hint">PDF uploads are optional.</p>
+        <p class="upload-hint">Attaching a PDF is optional.</p>
         <div class="uploaded-files-list" data-field-index="${fieldCount}">
         </div>
       </div>
@@ -960,6 +974,7 @@ function handlePublishCourse(): void {
     professorName: collectFieldData("professorName"),
     courseName: collectFieldData("courseName"),
     modules: collectFieldData("modules"),
+    syllabus: collectFieldData("syllabus"),
     assignments: collectFieldData("assignments"),
     files: collectFieldData("files"),
     customFields:
@@ -1645,11 +1660,13 @@ export function showCoursePreviewModal(courseInput: string | Course): void {
           </div>
           
           <div class="preview-row">
+            ${renderPreviewSection("Lecture Slides", course.modules)}
             ${renderPreviewSection("Assignments", course.assignments)}
-            ${renderPreviewSection("Modules", course.modules)}
           </div>
           
-          ${renderPreviewSection("Files", course.files)}
+          ${renderPreviewSection("Syllabus", course.syllabus)}
+          
+          ${renderPreviewSection("Additional Files", course.files)}
           
           ${
             course.customFields
@@ -1718,14 +1735,13 @@ export function showCoursePreviewModal(courseInput: string | Course): void {
     btn.addEventListener("click", (e) => {
       const target = e.target as HTMLButtonElement;
       const label = target.getAttribute("data-label") || "";
-      const fieldData =
-        label === "Modules"
-          ? course.modules
-          : label === "Assignments"
-          ? course.assignments
-          : label === "Files"
-          ? course.files
-          : course.customFields?.[label];
+      const fieldMap: { [key: string]: FieldData | undefined } = {
+        "Lecture Slides": course.modules,
+        Assignments: course.assignments,
+        Syllabus: course.syllabus,
+        "Additional Files": course.files,
+      };
+      const fieldData = fieldMap[label] ?? course.customFields?.[label];
 
       if (fieldData?.files) {
         const filesList = target.previousElementSibling as HTMLElement;
