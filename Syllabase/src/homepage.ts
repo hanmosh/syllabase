@@ -1,9 +1,10 @@
-import { renderSidebar, setupSidebar, initCourses } from "./courses"
+import { renderSidebar, setupSidebar, initCourses, setCurrentPage } from "./courses"
 
 export function renderHomePage(): void {
     const app = document.querySelector<HTMLDivElement>('#search-page')
     if (!app) return
 
+    setCurrentPage("homepage")
     const quickSearchOptions = [
         'Architecture & Design',
         'Business',

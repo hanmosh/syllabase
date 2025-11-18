@@ -34,7 +34,7 @@ export interface CourseState {
   courses: Course[];
   folders: Folder[];
   editingCourseId?: string;
-  currentPage: "courses" | "folders";
+  currentPage: "courses" | "folders" | "homepage";
 }
 
 // State management
@@ -42,7 +42,7 @@ export let state: CourseState = {
   courses: [],
   folders: [],
   editingCourseId: undefined,
-  currentPage: "courses",
+  currentPage: "homepage",
 };
 
 var coursesInitialized = false;
@@ -57,6 +57,12 @@ function getAppContainer(): HTMLDivElement | null {
     document.querySelector<HTMLDivElement>("#syllabus-page")
   );
 }
+
+// Export function to set current page
+export function setCurrentPage(page: 'courses' | 'folders' | 'homepage'): void {
+  state.currentPage = page
+}
+
 
 // Get current user name and profile picture
 let currentUserName = "Josh Hall";
@@ -110,7 +116,7 @@ export function loadCourses(): void {
       const loadedState = JSON.parse(stored);
       state = {
         ...loadedState,
-        currentPage: loadedState.currentPage || "courses",
+        currentPage: loadedState.currentPage,
         folders: loadedState.folders || [],
       };
     } catch (e) {
