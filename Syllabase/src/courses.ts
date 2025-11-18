@@ -296,7 +296,8 @@ function renderFieldWithUpload(
   fieldName: string,
   label: string,
   fieldData: FieldData | undefined,
-  inputType: "input" | "textarea" = "input"
+  inputType: "input" | "textarea" = "input",
+  allowFileUpload = true
 ): string {
   const textValue = fieldData?.text || "";
   const files = fieldData?.files || [];
@@ -321,34 +322,41 @@ function renderFieldWithUpload(
             value="${textValue}"
           />`
       }
-      <div class="file-upload-section">
-        <input
-          type="file"
-          accept="application/pdf"
-          class="file-input"
-          id="file-${fieldId}"
-          data-field-name="${fieldName}"
-          multiple
-          style="display: none;"
-        />
-        <button type="button" class="upload-file-btn" data-field-id="file-${fieldId}">
-          📎 Upload PDF${files.length > 0 ? "s" : ""}
-        </button>
-        <div class="uploaded-files-list" data-field-name="${fieldName}">
-          ${files
-            .map(
-              (file, index) => `
-            <div class="uploaded-file-item" data-file-index="${index}">
-              <span class="file-name" title="${file.name}">${file.name}</span>
-              <span class="file-size">${formatFileSize(file.size)}</span>
-              <button type="button" class="view-file-btn" data-field-name="${fieldName}" data-file-index="${index}">View</button>
-              <button type="button" class="remove-file-btn" data-field-name="${fieldName}" data-file-index="${index}">×</button>
-            </div>
-          `
-            )
-            .join("")}
+      ${
+        allowFileUpload
+          ? `
+        <div class="file-upload-section">
+          <input
+            type="file"
+            accept="application/pdf"
+            class="file-input"
+            id="file-${fieldId}"
+            data-field-name="${fieldName}"
+            multiple
+            style="display: none;"
+          />
+          <button type="button" class="upload-file-btn" data-field-id="file-${fieldId}">
+            📎 Upload PDF${files.length > 0 ? "s" : ""}
+          </button>
+          <p class="upload-hint">PDF uploads are optional.</p>
+          <div class="uploaded-files-list" data-field-name="${fieldName}">
+            ${files
+              .map(
+                (file, index) => `
+              <div class="uploaded-file-item" data-file-index="${index}">
+                <span class="file-name" title="${file.name}">${file.name}</span>
+                <span class="file-size">${formatFileSize(file.size)}</span>
+                <button type="button" class="view-file-btn" data-field-name="${fieldName}" data-file-index="${index}">View</button>
+                <button type="button" class="remove-file-btn" data-field-name="${fieldName}" data-file-index="${index}">×</button>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
         </div>
-      </div>
+      `
+          : ""
+      }
     </div>
   `;
 }
@@ -401,13 +409,15 @@ export function renderNewCoursePage(): void {
               "professorName",
               "Professor Name",
               editingCourse?.professorName,
-              "input"
+              "input",
+              false
             )}
             ${renderFieldWithUpload(
               "courseName",
               "Course Name",
               editingCourse?.courseName,
-              "input"
+              "input",
+              false
             )}
             ${renderFieldWithUpload(
               "modules",
@@ -474,6 +484,9 @@ function renderCustomFields(customFields: {
             <button type="button" class="remove-custom-field-btn" data-field-index="${index}">Remove Field</button>
           </div>
           <div class="form-field-with-upload" data-field-name="custom-${index}">
+            <label class="custom-field-label" data-field-index="${index}">
+              ${key || "Custom Field"}
+            </label>
             <textarea
               class="custom-field-value"
               placeholder="Field value"
@@ -493,6 +506,7 @@ function renderCustomFields(customFields: {
               <button type="button" class="upload-file-btn" data-field-id="file-custom-${index}">
                 📎 Upload PDF${files.length > 0 ? "s" : ""}
               </button>
+              <p class="upload-hint">PDF uploads are optional.</p>
               <div class="uploaded-files-list" data-field-index="${index}">
                 ${files
                   .map(
@@ -540,6 +554,7 @@ function setupCourseForm(): void {
 
   // Setup file uploads
   setupFileUploads();
+  setupCustomFieldNameInputs();
 
   // Handle add custom field
   addFieldBtn.addEventListener("click", () => {
@@ -560,6 +575,28 @@ function setupCourseForm(): void {
     state.editingCourseId = undefined;
     renderPublishedCoursesPage();
   });
+}
+
+function setupCustomFieldNameInputs(
+  scope: Document | HTMLElement = document
+): void {
+  scope
+    .querySelectorAll<HTMLInputElement>(".custom-field-name")
+    .forEach((input) => {
+      input.addEventListener("input", () => {
+        updateCustomFieldLabel(input);
+      });
+      updateCustomFieldLabel(input);
+    });
+}
+
+function updateCustomFieldLabel(input: HTMLInputElement): void {
+  const field = input.closest(".custom-field");
+  const label =
+    field?.querySelector<HTMLElement>(".custom-field-label");
+  if (label) {
+    label.textContent = input.value.trim() || "Custom Field";
+  }
 }
 
 // Setup file upload handlers
@@ -756,6 +793,9 @@ function addCustomField(): void {
       <button type="button" class="remove-custom-field-btn" data-field-index="${fieldCount}">Remove Field</button>
     </div>
     <div class="form-field-with-upload" data-field-name="custom-${fieldCount}">
+      <label class="custom-field-label" data-field-index="${fieldCount}">
+        Custom Field
+      </label>
       <textarea
         class="custom-field-value"
         placeholder="Field value"
@@ -775,6 +815,7 @@ function addCustomField(): void {
         <button type="button" class="upload-file-btn" data-field-id="file-custom-${fieldCount}">
           📎 Upload PDFs
         </button>
+        <p class="upload-hint">PDF uploads are optional.</p>
         <div class="uploaded-files-list" data-field-index="${fieldCount}">
         </div>
       </div>
@@ -809,6 +850,8 @@ function addCustomField(): void {
       await handleFileUpload(target, files);
     }
   });
+
+  setupCustomFieldNameInputs(newField);
 }
 
 // Collect field data from form
