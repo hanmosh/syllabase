@@ -1832,6 +1832,41 @@ export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
+// Show success notification
+export function showSuccessNotification(message: string): void {
+  // Remove any existing notifications
+  const existing = document.querySelector('.success-notification')
+  if (existing) {
+    existing.remove()
+  }
+
+  const notification = document.createElement('div')
+  notification.className = 'success-notification'
+  notification.innerHTML = `
+    <div class="notification-content">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="notification-icon">
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+      </svg>
+      <span>${message}</span>
+    </div>
+  `
+
+  document.body.appendChild(notification)
+
+  // Trigger animation
+  setTimeout(() => {
+    notification.classList.add('show')
+  }, 10)
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.classList.remove('show')
+    setTimeout(() => {
+      notification.remove()
+    }, 300)
+  }, 3000)
+}
+
 // Initialize courses module
 export function initCourses(): void {
   if (coursesInitialized) return;
