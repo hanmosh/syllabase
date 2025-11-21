@@ -213,6 +213,152 @@ export function renderSidebar(): string {
   `;
 }
 
+export type HeaderChatContextType = "course" | "folder" | "general";
+
+export interface HeaderChatButtonOptions {
+  contextName?: string;
+  contextType?: HeaderChatContextType;
+  contextId?: string;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export function renderHeaderActions(): string {
+  return `
+    <div class="header-actions">
+      <button
+        type="button"
+        class="header-chat-btn"
+        id="header-chat-btn"
+        aria-label="Open chat"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12v2zm0-3H6V4h12v2z"/>
+        </svg>
+      </button>
+      <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+      </button>
+    </div>
+  `;
+}
+
+export function setupHeaderChatButton(
+  options?: HeaderChatButtonOptions
+): void {
+  const chatBtn = document.getElementById(
+    "header-chat-btn"
+  ) as HTMLButtonElement | null;
+  if (!chatBtn) return;
+
+  const contextName = options?.contextName || "Syllabase";
+  const contextType: HeaderChatContextType =
+    options?.contextType || "general";
+  const contextId = options?.contextId;
+
+  chatBtn.dataset.chatContext = contextName;
+  chatBtn.dataset.chatType = contextType;
+  if (contextId) {
+    chatBtn.dataset.chatId = contextId;
+  } else {
+    delete chatBtn.dataset.chatId;
+  }
+
+  chatBtn.onclick = () => {
+    openChatFolderModal();
+  };
+}
+
+function openChatFolderModal(): void {
+  document.getElementById("chat-folder-overlay")?.remove();
+
+  const folders = state.folders || [];
+  const folderCards =
+    folders.length > 0
+      ? folders
+          .map((folder) => {
+            const displayName = escapeHtml(folder.name);
+            const encodedName = encodeURIComponent(folder.name);
+            const encodedId = encodeURIComponent(folder.id);
+            return `
+        <button
+          type="button"
+          class="chat-folder-card"
+          data-chat-type="folder"
+          data-chat-name="${encodedName}"
+          data-chat-id="${encodedId}"
+        >
+          <div class="chat-folder-card-text">
+            <span class="chat-folder-name">${displayName}</span>
+            <span class="chat-folder-meta">${folder.courseIds.length} course${
+              folder.courseIds.length === 1 ? "" : "s"
+            }</span>
+          </div>
+          <span class="chat-folder-icon">→</span>
+        </button>
+      `;
+          })
+          .join("")
+      : `<p class="chat-folder-empty">You haven't created any folders yet. Visit My Folders to get started.</p>`;
+
+  const modalHTML = `
+    <div class="course-preview-overlay chat-folder-overlay" id="chat-folder-overlay">
+      <div class="course-preview-modal chat-folder-modal">
+        <div class="course-preview-header">
+          <h2>Select a chat topic</h2>
+          <button class="course-preview-close" id="chat-folder-close">×</button>
+        </div>
+        <div class="course-preview-body chat-folder-body">
+          <div class="chat-folder-section">
+            <h3>Your folders</h3>
+            <div class="chat-folder-list">
+              ${folderCards}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+  const overlay = document.getElementById("chat-folder-overlay");
+  const closeBtn = document.getElementById("chat-folder-close");
+  const closeModal = () => overlay?.remove();
+
+  closeBtn?.addEventListener("click", closeModal);
+  overlay?.addEventListener("click", (event) => {
+    if (event.target === overlay) {
+      closeModal();
+    }
+  });
+
+  overlay
+    ?.querySelectorAll<HTMLButtonElement>(".chat-folder-card")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const name = button.dataset.chatName
+          ? decodeURIComponent(button.dataset.chatName)
+          : "Syllabase";
+        const type = (button.dataset.chatType as HeaderChatContextType) || "general";
+        const id = button.dataset.chatId
+          ? decodeURIComponent(button.dataset.chatId)
+          : undefined;
+        closeModal();
+        openChatInterface(name, type, id);
+      });
+    });
+}
+
 // Toggle sidebar
 function toggleSidebar(): void {
   const sidebar = document.getElementById("sidebar");
@@ -390,12 +536,8 @@ export function renderNewCoursePage(): void {
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
-        <button class="hamburger-menu" id="hamburger-menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
+        ${renderHeaderActions()}
       </header>
 
       <main class="course-content">
@@ -473,6 +615,11 @@ export function renderNewCoursePage(): void {
   `;
 
   setupSidebar();
+  setupHeaderChatButton({
+    contextName: editingCourse?.courseName?.text || "New Course",
+    contextType: "course",
+    contextId: editingCourse?.id,
+  });
   setupCourseForm();
 }
 
@@ -1014,11 +1161,7 @@ export function renderPublishedCoursesPage(): void {
     <div class="course-page">
       <header class="app-header">
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
-        <button class="hamburger-menu" id="hamburger-menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
+        ${renderHeaderActions()}
       </header>
 
       <main class="course-content">
@@ -1041,6 +1184,7 @@ export function renderPublishedCoursesPage(): void {
   `;
 
   setupSidebar();
+  setupHeaderChatButton({ contextName: "Published Courses", contextType: "general" });
   setupPublishedCoursesPage();
 }
 
@@ -1054,12 +1198,8 @@ export function renderFoldersPage(): void {
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
-        <button class="hamburger-menu" id="hamburger-menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
+        ${renderHeaderActions()}
       </header>
 
       <main class="course-content">
@@ -1084,6 +1224,7 @@ export function renderFoldersPage(): void {
   `;
 
   setupSidebar();
+  setupHeaderChatButton({ contextName: "Course Folders", contextType: "general" });
   setupFoldersPage();
 }
 
@@ -1266,12 +1407,8 @@ function renderFolderDetailPage(folderId: string): void {
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
-        <button class="hamburger-menu" id="hamburger-menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
+        ${renderHeaderActions()}
       </header>
 
       <main class="course-content">
@@ -1299,6 +1436,11 @@ function renderFolderDetailPage(folderId: string): void {
   `;
 
   setupSidebar();
+  setupHeaderChatButton({
+    contextName: folder.name,
+    contextType: "folder",
+    contextId: folder.id,
+  });
   setupFolderDetailPage(folderId);
 }
 
@@ -1398,7 +1540,7 @@ function setupFolderDetailPage(folderId: string): void {
 
 function openChatInterface(
   contextName: string,
-  type: "course" | "folder",
+  type: HeaderChatContextType,
   contextId?: string
 ): void {
   localStorage.setItem("chatContextName", contextName);
@@ -1412,7 +1554,7 @@ function openChatInterface(
     }
     localStorage.setItem("chatCourseName", contextName);
     localStorage.removeItem("chatFolderId");
-  } else {
+  } else if (type === "folder") {
     if (contextId) {
       localStorage.setItem("chatFolderId", contextId);
     } else {
@@ -1420,6 +1562,10 @@ function openChatInterface(
     }
     localStorage.removeItem("chatCourseId");
     localStorage.removeItem("chatCourseName");
+  } else {
+    localStorage.removeItem("chatCourseId");
+    localStorage.removeItem("chatCourseName");
+    localStorage.removeItem("chatFolderId");
   }
 
   window.location.href = "chat.html";

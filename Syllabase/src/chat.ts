@@ -1,4 +1,11 @@
-import { initCourses, renderSidebar, setupSidebar } from "./courses";
+import {
+  initCourses,
+  renderSidebar,
+  setupSidebar,
+  renderHeaderActions,
+  setupHeaderChatButton,
+} from "./courses";
+import type { HeaderChatContextType } from "./courses";
 
 type ChatMessage = {
   sender: "user" | "system";
@@ -19,20 +26,21 @@ function renderChatInterface(): void {
     localStorage.getItem("chatCourseName") ||
     "Course";
   const contextType =
-    (localStorage.getItem("chatContextType") as "course" | "folder" | null) ||
+    (localStorage.getItem("chatContextType") as HeaderChatContextType | null) ||
     "course";
-  const contextLabel = contextType === "folder" ? "folder" : "course";
+  const contextLabel =
+    contextType === "folder"
+      ? "folder"
+      : contextType === "general"
+      ? "topic"
+      : "course";
 
   app.innerHTML = `
     ${renderSidebar()}
     <div class="course-page">
       <header class="app-header">
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
-        <button class="hamburger-menu" id="hamburger-menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
+        ${renderHeaderActions()}
       </header>
 
       <main class="chat-content">
@@ -63,6 +71,7 @@ function renderChatInterface(): void {
   `;
 
   setupSidebar();
+  setupHeaderChatButton({ contextName, contextType });
   setupChatHandlers(contextName);
 }
 

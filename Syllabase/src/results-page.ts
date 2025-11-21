@@ -11,7 +11,9 @@ import {
   initCourses,
   showCoursePreviewModal,
   setCurrentPage,
-  showSuccessNotification // NEW - Import the notification function
+  showSuccessNotification, // NEW - Import the notification function
+  renderHeaderActions,
+  setupHeaderChatButton
 } from "./courses";
 import type { Folder, Course as SavedCourse } from "./courses";
 
@@ -36,11 +38,7 @@ export function renderResultsPage(department: string): void {
         <div class="course-page">
             <header class="app-header">
                 <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
-                <button class="hamburger-menu" id="hamburger-menu">
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                </button>
+                ${renderHeaderActions()}
             </header>
 
             <main>
@@ -91,6 +89,7 @@ export function renderResultsPage(department: string): void {
     `;
 
   setupSidebar();
+  setupHeaderChatButton({ contextName: `Results for ${department}`, contextType: "general" });
 
   const tableBody = app.querySelector<HTMLTableSectionElement>("tbody");
   const baseResults = filteredData;
