@@ -10,7 +10,8 @@ import {
   saveFolders,
   initCourses,
   showCoursePreviewModal,
-  setCurrentPage
+  setCurrentPage,
+  showSuccessNotification // NEW - Import the notification function
 } from "./courses";
 import type { Folder, Course as SavedCourse } from "./courses";
 
@@ -284,6 +285,9 @@ function renderSaveOverlay(courseId: string): void {
     selectFolder.innerHTML = getFolderOptions();
     selectFolder.value = newFolder.id;
     newFolderName.value = "";
+    
+    // Show success notification for folder creation
+    showSuccessNotification(`Folder "${folderName}" created successfully!`);
   });
 
   saveButton.addEventListener("click", () => {
@@ -294,10 +298,11 @@ function renderSaveOverlay(courseId: string): void {
     }
 
     let course = state.courses.find((c) => c.id === courseId);
+    const courseData = currentResults.find(
+      (c) => c.courseNumber === courseId,
+    );
+    
     if (!course) {
-      const courseData = currentResults.find(
-        (c) => c.courseNumber === courseId,
-      );
       if (courseData) {
         course = {
           id: courseId,
@@ -321,6 +326,10 @@ function renderSaveOverlay(courseId: string): void {
     saveFolders();
 
     closeOverlay();
+    
+    // Show success notification with course name
+    const courseName = courseData?.courseName || 'Course';
+    showSuccessNotification(`"${courseName}" saved to "${folder.name}"!`);
   });
 
   overlay.addEventListener("click", (event) => {
