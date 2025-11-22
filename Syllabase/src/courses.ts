@@ -608,7 +608,7 @@ export function renderNewCoursePage(): void {
             </button>
 
             <div class="form-actions">
-              <button type="button" id="view-courses-btn" class="secondary-btn">View My Courses</button>
+              <button type="button" id="view-courses-btn" class="secondary-btn">Back</button>
               <button type="submit" class="publish-btn">
                 ${editingCourse ? "Update Course" : "Publish Course"}
               </button>
