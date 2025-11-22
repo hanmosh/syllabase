@@ -52,7 +52,7 @@ function renderChatInterface(): void {
         <div class="chat-panel">
           <div id="chat-messages" class="chat-messages"></div>
           <div class="chat-quick-prompts">
-            <button type="button" id="prompt-compare">Compare the learning objectives for these course</button>
+            <button type="button" id="prompt-compare">Compare the learning objectives for these courses</button>
             <button type="button" id="prompt-syllabus">Create a syllabus based off these courses</button>
           </div>
           <form id="chat-form" class="chat-form">

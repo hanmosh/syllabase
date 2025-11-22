@@ -230,19 +230,24 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-export function renderHeaderActions(): string {
+export function renderHeaderActions(options?: { hideChatButton?: boolean }): string {
+  const showChat = !options?.hideChatButton;
   return `
     <div class="header-actions">
-      <button
-        type="button"
-        class="header-chat-btn"
-        id="header-chat-btn"
-        aria-label="Open chat"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12v2zm0-3H6V4h12v2z"/>
-        </svg>
-      </button>
+      ${
+        showChat
+          ? `<button
+              type="button"
+              class="header-chat-btn"
+              id="header-chat-btn"
+              aria-label="Open chat"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12 v2zm0-3H6V4h12v2z"/>
+              </svg>
+            </button>`
+          : ""
+      }
       <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
         <div class="hamburger-line"></div>
         <div class="hamburger-line"></div>
@@ -1199,7 +1204,7 @@ export function renderFoldersPage(): void {
     <div class="course-page">
       <header class="app-header">
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
-        ${renderHeaderActions()}
+        ${renderHeaderActions({ hideChatButton: true })}
       </header>
 
       <main class="course-content">
@@ -1224,7 +1229,6 @@ export function renderFoldersPage(): void {
   `;
 
   setupSidebar();
-  setupHeaderChatButton({ contextName: "Course Folders", contextType: "general" });
   setupFoldersPage();
 }
 
