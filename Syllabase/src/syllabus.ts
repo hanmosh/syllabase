@@ -46,6 +46,7 @@ function renderSyllabusPage(): void {
             `).join("")}
           </div>
           <div class="syllabus-download">
+            <button type="button" class="secondary-btn" id="undo-objective-btn" disabled>Undo Change</button>
             <button type="button" class="primary-btn" id="download-syllabus-btn">Download Syllabus</button>
           </div>
         </div>
@@ -58,25 +59,106 @@ function renderSyllabusPage(): void {
   setupSyllabusInteractions();
 }
 
+type ObjectiveAction = RemoveAction | AcceptAction;
+
+interface RemoveAction {
+  type: "remove";
+  row: HTMLDivElement;
+  index: number;
+}
+
+interface AcceptAction {
+  type: "accept";
+  iconGroup: HTMLDivElement;
+}
+
 function setupSyllabusInteractions(): void {
-  document.querySelectorAll<HTMLButtonElement>(".syllabus-check").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const iconGroup = (e.currentTarget as HTMLElement).closest(".syllabus-icons");
-      iconGroup?.classList.add("syllabus-complete");
+  const objectiveTable = document.querySelector<HTMLDivElement>(".syllabus-table");
+  const undoBtn = document.querySelector<HTMLButtonElement>("#undo-objective-btn");
+
+  if (!objectiveTable || !undoBtn) return;
+
+  const actionHistory: ObjectiveAction[] = [];
+
+  const updateUndoButton = () => {
+    undoBtn.disabled = actionHistory.length === 0;
+  };
+
+  const updateObjectiveNumbers = () => {
+    objectiveTable.querySelectorAll<HTMLDivElement>(".syllabus-row").forEach((row, idx) => {
+      const label = row.querySelector("strong");
+      if (label) {
+        label.textContent = `Objective ${idx + 1}`;
+      }
+      row.querySelector<HTMLButtonElement>(".syllabus-check")?.setAttribute(
+        "aria-label",
+        `Mark objective ${idx + 1} complete`
+      );
+      row.querySelector<HTMLButtonElement>(".syllabus-remove")?.setAttribute(
+        "aria-label",
+        `Remove objective ${idx + 1}`
+      );
     });
+  };
+
+  const removeRow = (row: HTMLDivElement) => {
+    const rows = Array.from(objectiveTable.children);
+    const rowIndex = rows.indexOf(row);
+    if (rowIndex === -1) return;
+
+    row.remove();
+    actionHistory.push({ type: "remove", row, index: rowIndex });
+    updateObjectiveNumbers();
+    updateUndoButton();
+  };
+
+  objectiveTable.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const checkBtn = target.closest<HTMLButtonElement>(".syllabus-check");
+    if (checkBtn) {
+      const iconGroup = checkBtn.closest<HTMLDivElement>(".syllabus-icons");
+      if (iconGroup && !iconGroup.classList.contains("syllabus-complete")) {
+        iconGroup.classList.add("syllabus-complete");
+        actionHistory.push({ type: "accept", iconGroup });
+        updateUndoButton();
+      }
+      return;
+    }
+
+    const removeBtn = target.closest<HTMLButtonElement>(".syllabus-remove");
+    if (removeBtn) {
+      const row = removeBtn.closest<HTMLDivElement>(".syllabus-row");
+      if (row) {
+        removeRow(row);
+      }
+    }
   });
 
-  document.querySelectorAll<HTMLButtonElement>(".syllabus-remove").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const row = (e.currentTarget as HTMLElement).closest(".syllabus-row");
-      row?.remove();
-    });
+  undoBtn.addEventListener("click", () => {
+    const lastAction = actionHistory.pop();
+    if (!lastAction) return;
+
+    if (lastAction.type === "remove") {
+      const insertBeforeRow = objectiveTable.children[lastAction.index] ?? null;
+      objectiveTable.insertBefore(lastAction.row, insertBeforeRow);
+      updateObjectiveNumbers();
+      lastAction.row
+        .querySelector<HTMLDivElement>(".syllabus-icons")
+        ?.classList.remove("syllabus-complete");
+    } else if (lastAction.type === "accept") {
+      lastAction.iconGroup.classList.remove("syllabus-complete");
+    }
+
+    updateUndoButton();
   });
 
   const downloadBtn = document.getElementById("download-syllabus-btn");
   downloadBtn?.addEventListener("click", () => {
     showDownloadToast();
   });
+
+  updateObjectiveNumbers();
+  updateUndoButton();
 }
 
 function showDownloadToast(): void {
