@@ -1,4 +1,4 @@
-import { renderSidebar, setupSidebar, initCourses, setCurrentPage } from "./courses"
+import { renderSidebar, setupSidebar, initCourses, setCurrentPage, renderHeaderActions, setupHeaderChatButton } from "./courses"
 
 export function renderHomePage(): void {
     const app = document.querySelector<HTMLDivElement>('#search-page')
@@ -22,11 +22,7 @@ export function renderHomePage(): void {
         <div class="course-page">
             <header class="app-header">
                 <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
-                <button class="hamburger-menu" id="hamburger-menu">
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                </button>
+                ${renderHeaderActions()}
             </header>
 
             <main>
@@ -46,6 +42,7 @@ export function renderHomePage(): void {
     `;
 
     setupSidebar()
+    setupHeaderChatButton({ contextName: "Explore Departments", contextType: "general" })
 
     const quickSearchContainer = document.querySelector<HTMLDivElement>('#quick-search-links')
 

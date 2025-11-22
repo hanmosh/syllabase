@@ -1,4 +1,4 @@
-import { renderSidebar, setupSidebar, initCourses } from "./courses";
+import { renderSidebar, setupSidebar, initCourses, renderHeaderActions, setupHeaderChatButton } from "./courses";
 
 function renderSyllabusPage(): void {
   const app = document.querySelector<HTMLDivElement>("#syllabus-page");
@@ -22,11 +22,7 @@ function renderSyllabusPage(): void {
     <div class="course-page">
       <header class="app-header">
         <a href="search.html"><h1 class="app-title">Syllabase</h1></a>
-        <button class="hamburger-menu" id="hamburger-menu">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
+        ${renderHeaderActions()}
       </header>
 
       <main class="course-content">
@@ -58,6 +54,7 @@ function renderSyllabusPage(): void {
   `;
 
   setupSidebar();
+  setupHeaderChatButton({ contextName: sourceLabel, contextType: "course" });
   setupSyllabusInteractions();
 }
 
