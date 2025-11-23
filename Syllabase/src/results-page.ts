@@ -165,7 +165,10 @@ function bindSaveButtons() {
     .forEach((button) => {
       button.addEventListener("click", () => {
         const courseId = button.dataset.courseId!;
-        renderSaveOverlay(courseId);
+        const courseData = currentResults.find(
+          (course) => course.courseNumber === courseId
+        );
+        renderSaveOverlay(courseId, courseData);
       });
     });
 }
@@ -213,7 +216,7 @@ function attachResultsPreviewHandlers(): void {
   });
 }
 
-function renderSaveOverlay(courseId: string): void {
+function renderSaveOverlay(courseId: string, courseData?: SearchCourse): void {
   const overlay = document.createElement("div");
   overlay.id = "add-to-folder-overlay";
   overlay.className = "overlay";
@@ -239,7 +242,7 @@ function renderSaveOverlay(courseId: string): void {
 
             <div class="new-folder">
                 <input id="folder-name" type="text" placeholder="New Folder Name" />
-                <button id="create-folder"><p>Save New Folder</p></button>
+                <button id="create-folder"><p>Create New Folder</p></button>
             </div>
 
             <div class="actions">
@@ -297,20 +300,20 @@ function renderSaveOverlay(courseId: string): void {
     }
 
     let course = state.courses.find((c) => c.id === courseId);
-    const courseData = currentResults.find(
-      (c) => c.courseNumber === courseId,
-    );
+    const resolvedCourseData =
+      courseData ||
+      currentResults.find((c) => c.courseNumber === courseId);
     
     if (!course) {
-      if (courseData) {
+      if (resolvedCourseData) {
         course = {
           id: courseId,
-          courseName: { text: courseData.courseName },
-          professorName: { text: courseData.professor },
+          courseName: { text: resolvedCourseData.courseName },
+          professorName: { text: resolvedCourseData.professor },
           customFields: {
-            Department: { text: courseData.department },
-            CourseNumber: { text: courseData.courseNumber },
-            University: { text: courseData.university },
+            Department: { text: resolvedCourseData.department },
+            CourseNumber: { text: resolvedCourseData.courseNumber },
+            University: { text: resolvedCourseData.university },
           },
           fromFolderSave: true,
         };
@@ -327,7 +330,7 @@ function renderSaveOverlay(courseId: string): void {
     closeOverlay();
     
     // Show success notification with course name
-    const courseName = courseData?.courseName || 'Course';
+    const courseName = resolvedCourseData?.courseName || 'Course';
     showSuccessNotification(`"${courseName}" saved to "${folder.name}"!`);
   });
 
