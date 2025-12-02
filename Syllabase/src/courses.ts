@@ -16,6 +16,7 @@ export interface Course {
   id: string;
   professorName?: FieldData;
   courseName?: FieldData;
+  department?: FieldData;
   modules?: FieldData;
   syllabus?: FieldData;
   assignments?: FieldData;
@@ -242,6 +243,7 @@ export function renderHeaderActions(options?: { hideChatButton?: boolean }): str
               id="header-chat-btn"
               aria-label="Open chat"
             >
+              <span class="header-chat-btn-text">SyllaBOT</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12 v2zm0-3H6V4h12v2z"/>
               </svg>
@@ -569,6 +571,13 @@ export function renderNewCoursePage(): void {
               "courseName",
               "Course Name",
               editingCourse?.courseName,
+              "input",
+              false
+            )}
+            ${renderFieldWithUpload(
+              "department",
+              "Department",
+              editingCourse?.department,
               "input",
               false
             )}
@@ -1125,6 +1134,7 @@ function handlePublishCourse(): void {
     id: state.editingCourseId || generateId(),
     professorName: collectFieldData("professorName"),
     courseName: collectFieldData("courseName"),
+    department: collectFieldData("department"),
     modules: collectFieldData("modules"),
     syllabus: collectFieldData("syllabus"),
     assignments: collectFieldData("assignments"),
@@ -1256,6 +1266,7 @@ function renderFolderCard(folder: Folder): string {
             title="Chat about this folder"
             aria-label="Open chat for ${folder.name}"
           >
+            <span class="chat-folder-btn-text">SyllaBOT</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="chat-icon">
               <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12v2zm0-3H6V4h12v2z"/>
             </svg>
@@ -1662,6 +1673,8 @@ function showAddCourseToFolderModal(folderId: string): void {
 function renderCourseCard(course: Course, folderId?: string): string {
   const title = course.courseName?.text || "Untitled Course";
   const professor = course.professorName?.text || "No professor assigned";
+  const department = course.department?.text?.trim();
+  const metaText = department ? `${professor} • ${department}` : professor;
 
   return `
     <div class="course-card" data-course-id="${course.id}">
@@ -1678,7 +1691,7 @@ function renderCourseCard(course: Course, folderId?: string): string {
           }
         </div>
       </div>
-      <p class="course-professor">${professor}</p>
+      <p class="course-professor">${metaText}</p>
     </div>
   `;
 }
@@ -1807,6 +1820,10 @@ export function showCoursePreviewModal(courseInput: string | Course): void {
                 ${course.courseName?.text || "Untitled Course"}
               </div>
             </div>
+          </div>
+
+          <div class="preview-row preview-row-single">
+            ${renderPreviewSection("Department", course.department)}
           </div>
           
           <div class="preview-row">
