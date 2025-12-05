@@ -1860,6 +1860,54 @@ body {
   font-size: 0.95rem;
 }
 
+.confirm-modal {
+  max-width: 420px;
+}
+
+.confirm-message {
+  color: #1a202c;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.confirm-cancel-btn {
+  padding: 0.65rem 1.25rem;
+  background: #fff;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-cancel-btn:hover {
+  background: #f7fafc;
+}
+
+.confirm-delete-btn {
+  padding: 0.65rem 1.25rem;
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-delete-btn:hover {
+  background: #c53030;
+  transform: translateY(-1px);
+}
+
 /* Course selection list */
 .course-select-list {
   display: flex;

@@ -395,6 +395,61 @@ function closeSidebar(): void {
   }
 }
 
+// Custom confirmation modal so destructive actions use a Delete button instead of the browser's OK/Cancel
+function showConfirmationDialog(
+  message: string,
+  confirmLabel = "Delete"
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    const overlay = document.createElement("div");
+    overlay.className = "modal-overlay confirm-overlay";
+    overlay.innerHTML = `
+      <div class="modal-content confirm-modal" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <h3>Confirm</h3>
+          <button class="modal-close-btn" type="button" aria-label="Close confirmation dialog">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="confirm-message">${message}</p>
+          <div class="confirm-actions">
+            <button class="confirm-cancel-btn" type="button">Cancel</button>
+            <button class="confirm-delete-btn" type="button">${confirmLabel}</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const closeDialog = (confirmed: boolean) => {
+      resolve(confirmed);
+      overlay.remove();
+      document.removeEventListener("keydown", handleEscape);
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeDialog(false);
+      }
+    };
+
+    const closeBtn = overlay.querySelector<HTMLButtonElement>(".modal-close-btn");
+    const cancelBtn = overlay.querySelector<HTMLButtonElement>(".confirm-cancel-btn");
+    const deleteBtn = overlay.querySelector<HTMLButtonElement>(".confirm-delete-btn");
+
+    closeBtn?.addEventListener("click", () => closeDialog(false));
+    cancelBtn?.addEventListener("click", () => closeDialog(false));
+    deleteBtn?.addEventListener("click", () => closeDialog(true));
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) {
+        closeDialog(false);
+      }
+    });
+    document.addEventListener("keydown", handleEscape);
+
+    document.body.appendChild(overlay);
+    deleteBtn?.focus();
+  });
+}
+
 // Setup sidebar handlers
 export function setupSidebar(): void {
   const hamburger = document.getElementById("hamburger-menu");
@@ -1351,21 +1406,21 @@ function setupFoldersPage(): void {
 
   // Handle delete buttons
   document.querySelectorAll(".delete-folder-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       e.stopPropagation();
       const folderId = (e.target as HTMLElement).getAttribute("data-folder-id");
 
-      if (
-        folderId &&
-        confirm(
-          "Are you sure you want to delete this folder? Courses inside will not be deleted."
-        )
-      ) {
-        state.folders = state.folders.filter((f) => f.id !== folderId);
-        saveCourses();
-        saveFolders();
-        renderFoldersPage();
-      }
+      if (!folderId) return;
+
+      const confirmed = await showConfirmationDialog(
+        "Are you sure you want to delete this folder?"
+      );
+      if (!confirmed) return;
+
+      state.folders = state.folders.filter((f) => f.id !== folderId);
+      saveCourses();
+      saveFolders();
+      renderFoldersPage();
     });
   });
 
@@ -1500,20 +1555,25 @@ function setupFolderDetailPage(folderId: string): void {
   });
 
   document.querySelectorAll(".delete-course-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       e.stopPropagation();
       const courseId = (e.target as HTMLElement).getAttribute("data-course-id");
 
-      if (courseId && confirm("Are you sure you want to delete this course?")) {
-        state.courses = state.courses.filter((c) => c.id !== courseId);
-        // Remove from all folders
-        state.folders.forEach((f) => {
-          f.courseIds = f.courseIds.filter((id) => id !== courseId);
-        });
-        saveCourses();
-        saveFolders();
-        renderFolderDetailPage(folderId);
-      }
+      if (!courseId) return;
+
+      const confirmed = await showConfirmationDialog(
+        "Are you sure you want to delete this course?"
+      );
+      if (!confirmed) return;
+
+      state.courses = state.courses.filter((c) => c.id !== courseId);
+      // Remove from all folders
+      state.folders.forEach((f) => {
+        f.courseIds = f.courseIds.filter((id) => id !== courseId);
+      });
+      saveCourses();
+      saveFolders();
+      renderFolderDetailPage(folderId);
     });
   });
 
@@ -1956,26 +2016,26 @@ function setupPublishedCoursesPage(): void {
 
   // Handle delete buttons
   document.querySelectorAll(".delete-course-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       e.stopPropagation();
       const target = e.target as HTMLButtonElement;
       const courseId = target.getAttribute("data-course-id");
 
-      if (
-        courseId &&
-        confirm(
-          "Are you sure you want to delete this course? This action cannot be undone."
-        )
-      ) {
-        state.courses = state.courses.filter((c) => c.id !== courseId);
-        // Remove from all folders
-        state.folders.forEach((f) => {
-          f.courseIds = f.courseIds.filter((id) => id !== courseId);
-        });
-        saveCourses();
-        saveFolders();
-        renderPublishedCoursesPage();
-      }
+      if (!courseId) return;
+
+      const confirmed = await showConfirmationDialog(
+        "Are you sure you want to delete this course? This action cannot be undone."
+      );
+      if (!confirmed) return;
+
+      state.courses = state.courses.filter((c) => c.id !== courseId);
+      // Remove from all folders
+      state.folders.forEach((f) => {
+        f.courseIds = f.courseIds.filter((id) => id !== courseId);
+      });
+      saveCourses();
+      saveFolders();
+      renderPublishedCoursesPage();
     });
   });
 
